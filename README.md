@@ -1,3 +1,6 @@
+Obs.: caso o app esteja no modo "sleeping" (dormindo) ao entrar, basta clicar no botão que estará disponível e aguardar, para ativar o mesmo. 
+![print](https://github.com/user-attachments/assets/970c11b4-0bbb-4971-a30f-43892a1317f5)
+
 # 🐍 Comandos Python - Referência Interativa
 
 ## Descrição
