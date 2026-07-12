@@ -7,37 +7,39 @@ Obs.: caso o app esteja no modo "sleeping" (dormindo) ao entrar, basta clicar no
 
 "Comandos Python" é uma aplicação web interativa construída com Python e Streamlit, projetada para servir como uma referência de comandos Python, especialmente útil para alunos e iniciantes na linguagem. A aplicação permite aos usuários navegar, pesquisar e filtrar comandos Python, visualizando suas descrições, categorias e tipos de forma amigável e organizada.
 
+🔗 **App online:** https://comandos.streamlit.app/
+
 ## ✨ Funcionalidades
 
-* **Busca de Comandos:** Encontre comandos rapidamente digitando seus nomes.
+* **Busca de Comandos:** Encontre comandos rapidamente pelo nome **ou pela descrição**.
 * **Filtragem Avançada:** Filtre comandos por categoria (ex: Matemática, Strings, Listas) e tipo (ex: Palavra-chave, Função Built-in, Método de Lista).
 * **Visualização em Cards:** Cada comando é apresentado em um card informativo com seu nome, tipo, categoria e descrição detalhada.
-* **Copiar para Área de Transferência:** Copie facilmente o nome do comando com um clique no botão "📋 Copiar".
+* **Copiar para Área de Transferência:** Passe o mouse sobre o comando e clique no ícone 📋 do bloco de código para copiá-lo.
+* **Nomes Qualificados:** Comandos homônimos são exibidos com o namespace do módulo (`re.compile`, `itertools.count`, `time.time`), evitando ambiguidade.
 * **Traduções Amigáveis:** Categorias e tipos técnicos são traduzidos para termos mais acessíveis, incluindo emojis para fácil identificação.
 * **Estatísticas:** Visualize o número total de comandos, categorias e tipos disponíveis na base de dados.
+* **Paginação:** Os resultados são exibidos em páginas de 25 comandos, mantendo a navegação fluida.
 * **Interface Moderna:** Design profissional e limpo com CSS customizado para uma melhor experiência do usuário.
 * **Guia Rápido:** Instruções de como usar os filtros e a busca diretamente na barra lateral.
-* **Logo Customizada:** Exibe uma logo da aplicação no cabeçalho (requer `logo.png`).
 
 ## 🛠️ Tecnologias Utilizadas
 
 * **Python:** Linguagem base da aplicação.
-* **Streamlit:** Framework para construção da interface web interativa.
+* **Streamlit:** Framework para construção da interface web interativa. A cópia de comandos usa o botão nativo do `st.code`, que age no navegador do usuário.
 * **Pandas:** Para manipulação e carregamento dos dados dos comandos a partir de um arquivo CSV.
-* **Pyperclip:** Para a funcionalidade de copiar para a área de transferências.
 
 ## 🚀 Configuração e Instalação
 
 Siga os passos abaixo para executar a aplicação localmente:
 
 1.  **Pré-requisitos:**
-    * Python 3.7 ou superior instalado.
+    * Python 3.9 ou superior instalado.
     * `pip` (gerenciador de pacotes Python).
 
-2.  **Clone o Repositório (Exemplo):**
+2.  **Clone o Repositório:**
     ```bash
-    git clone [https://github.com/aryribeiro/comandos-python.git](https://github.com/aryribeiro/comandos-python.git)
-    cd comandos-python-app
+    git clone https://github.com/aryribeiro/comandos-python.git
+    cd comandos-python
     ```
 
 3.  **Crie e Ative um Ambiente Virtual (Recomendado):**
@@ -50,22 +52,15 @@ Siga os passos abaixo para executar a aplicação localmente:
     ```
 
 4.  **Instale as Dependências:**
-    Crie um arquivo `requirements.txt` com o seguinte conteúdo:
-    ```txt
-    streamlit
-    pandas
-    pyperclip
-    ```
-    Em seguida, instale as dependências:
     ```bash
     pip install -r requirements.txt
     ```
 
-5.  **Estrutura de Arquivos Necessária:**
-    Certifique-se de que os seguintes arquivos estejam na raiz do projeto:
-    * `app.py` (o script principal da aplicação)
-    * `comandos.csv` (o arquivo CSV contendo os dados dos comandos)
-    * `logo.png` (arquivo de imagem para o logo da aplicação, opcional mas recomendado para a experiência completa)
+5.  **Estrutura de Arquivos:**
+    * `app.py` — script principal da aplicação
+    * `comandos.csv` — base de dados dos comandos
+    * `logo.png` — logo exibida no cabeçalho (opcional; há fallback para título em texto)
+    * `.streamlit/config.toml` — fixa o tema claro, que o CSS da aplicação assume
 
 6.  **Execute a Aplicação:**
     ```bash
@@ -87,13 +82,19 @@ A aplicação carrega os comandos Python a partir de um arquivo chamado `comando
 comando,tipo,categoria,descricao
 print,builtin_function,io,"Imprime objetos para o fluxo de texto padrão (geralmente a tela)."
 len,builtin_function,sequencia,"Retorna o número de itens em um container."
+```
 
-**Customização**
+> ⚠️ O CSV é lido com `keep_default_na=False`. Sem isso o pandas converte o comando `None` em `NaN` e ele desaparece da base — `None` faz parte da lista de valores nulos padrão do pandas.
 
-    Adicionar Novos Comandos: Para adicionar mais comandos, edite o arquivo comandos.csv seguindo o formato especificado.
-    Novas Categorias/Tipos: Se adicionar comandos com novas categorias ou tipos técnicos, atualize os dicionários get_category_translation() e get_type_translation() no arquivo app.py para incluir traduções amigáveis e emojis correspondentes.
-    Estilo Visual: Modifique o CSS dentro das seções st.markdown("""<style>...</style>""") no arquivo app.py para alterar a aparência da aplicação.
+## 🎨 Customização
 
-👤 Autor
+* **Adicionar Novos Comandos:** Edite o `comandos.csv` seguindo o formato acima.
+* **Novas Categorias/Tipos:** Ao introduzir uma categoria ou tipo novo, adicione a tradução nos dicionários `CATEGORIAS` e `TIPOS` no `app.py`. Sem a tradução, o filtro continua funcionando, mas o rótulo cai no fallback genérico.
+* **Novos Módulos:** Para que um comando de módulo apareça qualificado (ex: `math.pow`), registre o prefixo no dicionário `PREFIXOS`.
+* **Estilo Visual:** O CSS fica em um único bloco `st.markdown` no topo do `app.py`.
 
-#### Ary Ribeiro 📧 aryribeiro@gmail.com
+> ⚠️ Não esconda o `<header>` do Streamlit no CSS: a seta de abrir/fechar a barra lateral é renderizada dentro dele. Esconda apenas os itens do toolbar (`stToolbarActions`, `stMainMenu`, `stStatusWidget`).
+
+## 👤 Autor
+
+**Ary Ribeiro** — [linkedin.com/in/aryribeiro](https://linkedin.com/in/aryribeiro)

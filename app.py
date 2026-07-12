@@ -1,94 +1,53 @@
-import streamlit as st
-import pandas as pd
-import pyperclip
-from typing import List, Dict
+from html import escape
+from pathlib import Path
 
-# Configuração da página
+import pandas as pd
+import streamlit as st
+
+CSV_PATH = Path(__file__).parent / "comandos.csv"
+LOGO_PATH = Path(__file__).parent / "logo.png"
+COLUNAS_OBRIGATORIAS = ["comando", "tipo", "categoria", "descricao"]
+COMANDOS_POR_PAGINA = 25
+
 st.set_page_config(
     page_title="Comandos Python | por Ary Ribeiro",
     page_icon="🐍",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
 
-# CSS personalizado para design profissional
-st.markdown("""
+st.markdown(
+    """
 <style>
-    .main-header {
+    /* Esconde o chrome padrão do Streamlit, mas mantém o <header> no DOM
+       para preservar a seta de abrir/fechar o sidebar */
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    /* Esconde só os itens à direita do toolbar (menu, Deploy, status).
+       NÃO esconder o stToolbar inteiro: é dentro dele que o Streamlit
+       renderiza a seta de expandir a sidebar (stExpandSidebarButton). */
+    [data-testid="stToolbarActions"],
+    [data-testid="stAppDeployButton"],
+    [data-testid="stMainMenu"],
+    [data-testid="stStatusWidget"],
+    [data-testid="stDecoration"] {
+        display: none !important;
+    }
+    footer {display: none !important;}
+    #MainMenu {display: none !important;}
+
+    .block-container {padding-top: 1rem;}
+
+    .app-slogan {
         text-align: center;
-        padding: 2rem 0;
-        background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
-        color: white;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .command-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 1rem;
-        border-left: 4px solid #2a5298;
-        transition: transform 0.2s;
-    }
-    
-    .command-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    
-    .command-name {
-        font-size: 1.4rem;
-        font-weight: bold;
-        color: #1e3c72;
-        margin-bottom: 0.5rem;
-    }
-    
-    .command-type {
-        display: inline-block;
-        background: #e8f4fd;
-        color: #2a5298;
-        padding: 0.2rem 0.6rem;
-        border-radius: 15px;
-        font-size: 0.8rem;
+        font-size: 1.2rem;
+        color: #6b7280;
         font-weight: 500;
-        margin-right: 0.5rem;
+        margin: 1rem 0 2rem 0;
     }
-    
-    .command-category {
-        display: inline-block;
-        background: #f0f9ff;
-        color: #1e40af;
-        padding: 0.2rem 0.6rem;
-        border-radius: 15px;
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
-    
-    .command-description {
-        color: #4b5563;
-        font-size: 1rem;
-        margin-top: 0.8rem;
-        line-height: 1.5;
-    }
-    
-    .copy-button {
-        background: #10b981;
-        color: white;
-        border: none;
-        padding: 0.4rem 0.8rem;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 0.8rem;
-        margin-top: 0.5rem;
-    }
-    
-    .copy-button:hover {
-        background: #059669;
-    }
-    
+
     .stats-container {
         display: flex;
         justify-content: space-around;
@@ -97,35 +56,38 @@ st.markdown("""
         border-radius: 10px;
         margin-bottom: 2rem;
     }
-    
-    .stat-item {
-        text-align: center;
+
+    .stat-item {text-align: center;}
+    .stat-number {font-size: 2rem; font-weight: bold; color: #1e3c72;}
+    .stat-label {color: #6b7280; font-size: 0.9rem;}
+
+    .command-type, .command-category {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-right: 0.5rem;
     }
-    
-    .stat-number {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #1e3c72;
+    .command-type {background: #e8f4fd; color: #2a5298;}
+    .command-category {background: #f0f9ff; color: #1e40af;}
+
+    .command-description {
+        color: #4b5563;
+        font-size: 1rem;
+        margin-top: 0.6rem;
+        line-height: 1.5;
     }
-    
-    .stat-label {
-        color: #6b7280;
-        font-size: 0.9rem;
-    }
-    
+
     .sidebar-header {
         color: #1e3c72;
         font-weight: bold;
         font-size: 1.1rem;
         margin-bottom: 1rem;
     }
-    
-    .no-results {
-        text-align: center;
-        padding: 3rem;
-        color: #6b7280;
-    }
-    
+
+    .no-results {text-align: center; padding: 3rem; color: #6b7280;}
+
     .search-info {
         background: #fef3c7;
         border: 1px solid #f59e0b;
@@ -134,319 +96,325 @@ st.markdown("""
         margin-bottom: 1rem;
         color: #92400e;
     }
+
+    .app-footer {
+        text-align: center;
+        color: #6b7280;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+    .app-footer a {color: #2a5298; text-decoration: none;}
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
+
+CATEGORIAS = {
+    "matematica": "🔢 Matemática",
+    "string": "📝 Strings",
+    "lista": "📋 Listas",
+    "dicionario": "📚 Dicionários",
+    "conjunto": "🔗 Conjuntos",
+    "arquivo": "📁 Arquivos",
+    "sistema": "⚙️ Sistema",
+    "io": "💻 Entrada/Saída",
+    "tempo": "⏰ Data/Tempo",
+    "aleatorio": "🎲 Aleatório",
+    "regex": "🔍 Regex",
+    "json": "📊 JSON",
+    "iteracao": "🔄 Iteração",
+    "estrutura_dados": "🏗️ Estruturas de Dados",
+    "funcional": "⚡ Programação Funcional",
+    "objeto": "🎯 Objetos",
+    "web": "🌐 Web/URLs",
+    "controle": "🎛️ Controle de Fluxo",
+    "funcao": "🔧 Funções",
+    "orientacao_objeto": "🏛️ Orientação a Objetos",
+    "excecao": "⚠️ Exceções",
+    "import": "📦 Imports",
+    "escopo": "🔐 Escopo",
+    "debug": "🐛 Debug",
+    "assincrono": "⚡ Assíncrono",
+    "conversao": "🔄 Conversão",
+    "sequencia": "📊 Sequências",
+    "inspecao": "🔍 Inspeção",
+    "memoria": "💾 Memória",
+    "utilitario": "🛠️ Utilitários",
+    "contexto": "📋 Context Managers",
+    "gerador": "⚙️ Geradores",
+    "constante": "📏 Constantes",
+    "logica": "🧠 Lógica",
+    "operador_logico": "🧮 Operadores Lógicos",
+    "operador": "➕ Operadores",
+    "aritmetico": "🔢 Aritmética",
+    "comparacao": "⚖️ Comparação",
+    "atribuicao": "📝 Atribuição",
+    "bitwise": "🔀 Bitwise",
+}
+
+TIPOS = {
+    "keyword": "🔑 Palavra-chave",
+    "builtin_function": "⚡ Função Built-in",
+    "list_method": "📋 Método de Lista",
+    "str_method": "📝 Método de String",
+    "dict_method": "📚 Método de Dicionário",
+    "set_method": "🔗 Método de Conjunto",
+    "file_method": "📁 Método de Arquivo",
+    "operator": "➕ Operador",
+    "os_module": "🖥️ Módulo OS",
+    "sys_module": "⚙️ Módulo Sys",
+    "datetime_module": "📅 Módulo DateTime",
+    "time_module": "⏱️ Módulo Time",
+    "random_module": "🎲 Módulo Random",
+    "re_module": "🔍 Módulo RE",
+    "json_module": "📊 Módulo JSON",
+    "math_module": "🔢 Módulo Math",
+    "itertools_module": "🔄 Módulo Itertools",
+    "collections_module": "🏗️ Módulo Collections",
+    "functools_module": "⚡ Módulo Functools",
+    "copy_module": "📋 Módulo Copy",
+    "urllib_module": "🌐 Módulo Urllib",
+}
+
+# Prefixo do módulo, para desambiguar homônimos: itertools.count vs count (list),
+# re.compile vs compile (built-in), time.time vs datetime.time...
+PREFIXOS = {
+    "os_module": "os",
+    "sys_module": "sys",
+    "datetime_module": "datetime",
+    "time_module": "time",
+    "random_module": "random",
+    "re_module": "re",
+    "json_module": "json",
+    "math_module": "math",
+    "itertools_module": "itertools",
+    "collections_module": "collections",
+    "functools_module": "functools",
+    "copy_module": "copy",
+    "urllib_module": "urllib",
+}
+
+
+def rotulo_categoria(categoria: str) -> str:
+    return CATEGORIAS.get(categoria, categoria.replace("_", " ").title())
+
+
+def rotulo_tipo(tipo: str) -> str:
+    return TIPOS.get(tipo, tipo.replace("_", " ").title())
+
+
+def nome_qualificado(comando: str, tipo: str) -> str:
+    """`compile` do módulo re vira `re.compile` — sem isso, homônimos viram cards idênticos."""
+    prefixo = PREFIXOS.get(tipo)
+    return f"{prefixo}.{comando}" if prefixo else comando
+
 
 @st.cache_data
-def load_data():
-    """Carrega os dados do CSV"""
-    try:
-        df = pd.read_csv('comandos.csv')
-        return df
-    except FileNotFoundError:
-        st.error("❌ Arquivo 'comandos.csv' não encontrado na raiz do projeto!")
-        st.stop()
-    except Exception as e:
-        st.error(f"❌ Erro ao carregar o arquivo: {str(e)}")
-        st.stop()
+def load_data() -> pd.DataFrame:
+    # keep_default_na=False: sem isso o pandas converte o comando `None` em NaN
+    # e ele some da base (`None` está na lista de na_values padrão).
+    df = pd.read_csv(CSV_PATH, keep_default_na=False, dtype=str)
 
-def copy_to_clipboard(text: str):
-    """Copia texto para área de transferência"""
-    try:
-        pyperclip.copy(text)
-        return True
-    except:
-        return False
+    faltando = [c for c in COLUNAS_OBRIGATORIAS if c not in df.columns]
+    if faltando:
+        raise ValueError(f"Colunas ausentes no CSV: {', '.join(faltando)}")
 
-def get_category_translation():
-    """Traduz categorias técnicas para nomes amigáveis"""
-    return {
-        'matematica': '🔢 Matemática',
-        'string': '📝 Strings',
-        'lista': '📋 Listas',
-        'dicionario': '📚 Dicionários',
-        'conjunto': '🔗 Conjuntos',
-        'arquivo': '📁 Arquivos',
-        'sistema': '⚙️ Sistema',
-        'io': '💻 Entrada/Saída',
-        'tempo': '⏰ Data/Tempo',
-        'aleatorio': '🎲 Aleatório',
-        'regex': '🔍 Regex',
-        'json': '📊 JSON',
-        'iteracao': '🔄 Iteração',
-        'estrutura_dados': '🏗️ Estruturas de Dados',
-        'funcional': '⚡ Programação Funcional',
-        'objeto': '🎯 Objetos',
-        'web': '🌐 Web/URLs',
-        'controle': '🎛️ Controle de Fluxo',
-        'funcao': '🔧 Funções',
-        'orientacao_objeto': '🏛️ Orientação a Objetos',
-        'excecao': '⚠️ Exceções',
-        'import': '📦 Imports',
-        'escopo': '🔐 Escopo',
-        'debug': '🐛 Debug',
-        'assincrono': '⚡ Assíncrono',
-        'conversao': '🔄 Conversão',
-        'sequencia': '📊 Sequências',
-        'inspecao': '🔍 Inspeção',
-        'memoria': '💾 Memória',
-        'utilitario': '🛠️ Utilitários',
-        'contexto': '📋 Context Managers',
-        'gerador': '⚙️ Geradores',
-        'constante': '📏 Constantes',
-        'operador_logico': '🧮 Operadores Lógicos',
-        'operador': '➕ Operadores',
-        'aritmetico': '🔢 Aritmética',
-        'comparacao': '⚖️ Comparação',
-        'atribuicao': '📝 Atribuição',
-        'bitwise': '🔀 Bitwise'
-    }
+    for coluna in COLUNAS_OBRIGATORIAS:
+        df[coluna] = df[coluna].str.strip()
 
-def get_type_translation():
-    """Traduz tipos técnicos para nomes amigáveis"""
-    return {
-        'keyword': '🔑 Palavra-chave',
-        'builtin_function': '⚡ Função Built-in',
-        'list_method': '📋 Método de Lista',
-        'str_method': '📝 Método de String',
-        'dict_method': '📚 Método de Dicionário',
-        'set_method': '🔗 Método de Conjunto',
-        'file_method': '📁 Método de Arquivo',
-        'operator': '➕ Operador',
-        'os_module': '🖥️ Módulo OS',
-        'sys_module': '⚙️ Módulo Sys',
-        'datetime_module': '📅 Módulo DateTime',
-        'time_module': '⏱️ Módulo Time',
-        'random_module': '🎲 Módulo Random',
-        're_module': '🔍 Módulo RE',
-        'json_module': '📊 Módulo JSON',
-        'math_module': '🔢 Módulo Math',
-        'itertools_module': '🔄 Módulo Itertools',
-        'collections_module': '🏗️ Módulo Collections',
-        'functools_module': '⚡ Módulo Functools',
-        'copy_module': '📋 Módulo Copy',
-        'urllib_module': '🌐 Módulo Urllib'
-    }
+    return df[df["comando"] != ""].reset_index(drop=True)
 
-def main():
-    # Header principal com logo
-    try:
-        # Container centralizado para logo e slogan
-        st.markdown("""
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 2rem 0;">
-        """, unsafe_allow_html=True)
-        
-        # Logo centralizada
-        col1, col2, col3 = st.columns([1, 1, 1])
-        with col2:
-            st.image("logo.png", width=400)
-        
-        # Slogan centralizado
-        st.markdown("""
-            <div style="text-align: center; margin-top: 1rem; margin-bottom: 2rem;">
-                <p style="font-size: 1.2rem; color: #6b7280; font-weight: 500; margin: 0;">
-                    Referência completa para alunos e iniciantes
-                </p>
+
+def render_cabecalho() -> None:
+    if LOGO_PATH.exists():
+        _, meio, _ = st.columns([1, 1, 1])
+        with meio:
+            st.image(str(LOGO_PATH), width=400)
+    else:
+        st.markdown("<h1 style='text-align:center'>🐍 Comandos Python</h1>", unsafe_allow_html=True)
+
+    st.markdown(
+        '<p class="app-slogan">Referência completa para alunos e iniciantes</p>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_estatisticas(df: pd.DataFrame) -> None:
+    st.markdown(
+        f"""
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">{len(df)}</div>
+                <div class="stat-label">Comandos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{df['categoria'].nunique()}</div>
+                <div class="stat-label">Categorias</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{df['tipo'].nunique()}</div>
+                <div class="stat-label">Tipos</div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
-        
-    except FileNotFoundError:
-        # Fallback caso a logo não seja encontrada
-        st.markdown("""
-        <div class="main-header">
-            <h1>🐍 Comandos Python</h1>
-            <p>Referência completa para alunos e iniciantes</p>
-        </div>
-        """, unsafe_allow_html=True)
-        st.warning("⚠️ Logo 'logo.png' não encontrada na raiz do projeto. Usando título padrão.")
-    
-    # Carrega os dados
-    df = load_data()
-    
-    # Traduções
-    category_translation = get_category_translation()
-    type_translation = get_type_translation()
-    
-    # Estatísticas
-    total_commands = len(df)
-    total_categories = df['categoria'].nunique()
-    total_types = df['tipo'].nunique()
-    
-    st.markdown(f"""
-    <div class="stats-container">
-        <div class="stat-item">
-            <div class="stat-number">{total_commands}</div>
-            <div class="stat-label">Comandos</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">{total_categories}</div>
-            <div class="stat-label">Categorias</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">{total_types}</div>
-            <div class="stat-label">Tipos</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Sidebar para filtros
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_filtros(df: pd.DataFrame) -> tuple[str, str, str]:
     with st.sidebar:
         st.markdown('<div class="sidebar-header">🔍 Filtros e Busca</div>', unsafe_allow_html=True)
-        
-        # Campo de busca
-        search_term = st.text_input(
+
+        busca = st.text_input(
             "🔍 Buscar comando:",
-            placeholder="Digite o nome do comando (ex: print, len, for...)",
-            help="Digite parte do nome do comando para encontrá-lo rapidamente"
+            placeholder="Ex: print, len, for, append...",
+            help="Busca no nome do comando e na descrição",
         )
-        
-        # Filtro por categoria
-        categories = ['Todas'] + sorted([category_translation.get(cat, cat.title()) 
-                                       for cat in df['categoria'].unique()])
-        selected_category = st.selectbox(
+
+        # As opções guardam o valor original do CSV e só o rótulo é traduzido.
+        # Filtrar pelo rótulo exigiria busca reversa — e falhava calado quando
+        # a categoria não tinha tradução.
+        categoria = st.selectbox(
             "📂 Filtrar por categoria:",
-            categories,
-            help="Escolha uma categoria para ver comandos relacionados"
+            ["Todas", *sorted(df["categoria"].unique(), key=rotulo_categoria)],
+            format_func=lambda c: "Todas" if c == "Todas" else rotulo_categoria(c),
+            help="Escolha uma categoria para ver comandos relacionados",
         )
-        
-        # Filtro por tipo
-        types = ['Todos'] + sorted([type_translation.get(tipo, tipo.replace('_', ' ').title()) 
-                                  for tipo in df['tipo'].unique()])
-        selected_type = st.selectbox(
+
+        tipo = st.selectbox(
             "🏷️ Filtrar por tipo:",
-            types,
-            help="Escolha um tipo específico de comando"
+            ["Todos", *sorted(df["tipo"].unique(), key=rotulo_tipo)],
+            format_func=lambda t: "Todos" if t == "Todos" else rotulo_tipo(t),
+            help="Escolha um tipo específico de comando",
         )
-        
-        # Informações adicionais na sidebar
+
         st.markdown("---")
         st.markdown("### 📚 Como usar:")
-        st.markdown("""
-        - **Busque** digitando o nome do comando
-        - **Filtre** por categoria ou tipo
-        - **Copie** comandos clicando no botão 📋
-        - **Explore** diferentes categorias para aprender
-        """)
-        st.markdown("---")
-        st.markdown("""
-        **Por Ary Ribeiro** | aryribeiro@gmail.com
-        """)
-    
-    # Aplicar filtros
-    filtered_df = df.copy()
-    
-    # Filtro de busca
-    if search_term:
-        filtered_df = filtered_df[
-            filtered_df['comando'].str.contains(search_term, case=False, na=False)
-        ]
-        st.markdown(f"""
-        <div class="search-info">
-            🔍 Mostrando resultados para: <strong>"{search_term}"</strong>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Filtro por categoria
-    if selected_category != 'Todas':
-        # Encontrar a categoria original baseada na tradução
-        original_category = None
-        for orig, trans in category_translation.items():
-            if trans == selected_category:
-                original_category = orig
-                break
-        if original_category:
-            filtered_df = filtered_df[filtered_df['categoria'] == original_category]
-    
-    # Filtro por tipo
-    if selected_type != 'Todos':
-        # Encontrar o tipo original baseado na tradução
-        original_type = None
-        for orig, trans in type_translation.items():
-            if trans == selected_type:
-                original_type = orig
-                break
-        if original_type:
-            filtered_df = filtered_df[filtered_df['tipo'] == original_type]
-    
-    # Mostrar resultados
-    if len(filtered_df) == 0:
-        st.markdown("""
-        <div class="no-results">
-            <h3>😔 Nenhum comando encontrado</h3>
-            <p>Tente ajustar os filtros ou termo de busca</p>
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown(f"### 📋 Encontrados {len(filtered_df)} comando(s)")
-        
-        # Exibir comandos em cards
-        for index, row in filtered_df.iterrows():
-            comando = row['comando']
-            tipo = row['tipo']
-            categoria = row['categoria']
-            descricao = row['descricao']
-            
-            # Traduzir tipo e categoria
-            tipo_display = type_translation.get(tipo, tipo.replace('_', ' ').title())
-            categoria_display = category_translation.get(categoria, categoria.title())
-            
-            # Card do comando
-            card_html = f"""
-            <div class="command-card">
-                <div class="command-name">{comando}</div>
-                <div>
-                    <span class="command-type">{tipo_display}</span>
-                    <span class="command-category">{categoria_display}</span>
-                </div>
-                <div class="command-description">{descricao}</div>
-            </div>
+        st.markdown(
             """
-            
-            col1, col2 = st.columns([4, 1])
-            
-            with col1:
-                st.markdown(card_html, unsafe_allow_html=True)
-            
-            with col2:
-                if st.button(f"📋 Copiar", key=f"copy_{index}", help="Copiar comando"):
-                    if copy_to_clipboard(comando):
-                        st.success("✅ Copiado!")
-                    else:
-                        st.error("❌ Erro ao copiar")
-                        st.info(f"Comando: `{comando}`")
+            - **Busque** pelo nome do comando ou pela descrição
+            - **Filtre** por categoria ou tipo
+            - **Copie** passando o mouse sobre o comando e clicando em 📋
+            - **Explore** as categorias para aprender
+            """
+        )
+
+    return busca, categoria, tipo
+
+
+def aplicar_filtros(df: pd.DataFrame, busca: str, categoria: str, tipo: str) -> pd.DataFrame:
+    filtrado = df
+
+    if busca:
+        # regex=False: comandos como `+`, `*` e `**` são regex inválidos
+        # e derrubavam a busca com re.error.
+        alvo = filtrado["comando"].str.contains(busca, case=False, regex=False)
+        alvo |= filtrado["descricao"].str.contains(busca, case=False, regex=False)
+        filtrado = filtrado[alvo]
+
+    if categoria != "Todas":
+        filtrado = filtrado[filtrado["categoria"] == categoria]
+
+    if tipo != "Todos":
+        filtrado = filtrado[filtrado["tipo"] == tipo]
+
+    return filtrado
+
+
+def render_card(linha: pd.Series) -> None:
+    with st.container(border=True):
+        esquerda, direita = st.columns([1, 2], vertical_alignment="center")
+
+        with esquerda:
+            # st.code traz o botão de copiar nativo, que age no navegador do usuário.
+            st.code(nome_qualificado(linha["comando"], linha["tipo"]), language="python")
+
+        with direita:
+            # escape(): operadores como `<`, `>` e `&` quebravam o HTML dos cards.
+            st.markdown(
+                f"""
+                <div>
+                    <span class="command-type">{escape(rotulo_tipo(linha['tipo']))}</span>
+                    <span class="command-category">{escape(rotulo_categoria(linha['categoria']))}</span>
+                </div>
+                <div class="command-description">{escape(linha['descricao'])}</div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+
+def render_resultados(filtrado: pd.DataFrame) -> None:
+    if filtrado.empty:
+        st.markdown(
+            """
+            <div class="no-results">
+                <h3>😔 Nenhum comando encontrado</h3>
+                <p>Tente ajustar os filtros ou o termo de busca</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        return
+
+    total_paginas = -(-len(filtrado) // COMANDOS_POR_PAGINA)  # divisão com teto
+    pagina = 1
+
+    cabecalho, seletor = st.columns([3, 1], vertical_alignment="bottom")
+    with cabecalho:
+        st.markdown(f"### 📋 {len(filtrado)} comando(s) encontrado(s)")
+    with seletor:
+        if total_paginas > 1:
+            pagina = st.selectbox(
+                "Página:",
+                range(1, total_paginas + 1),
+                format_func=lambda p: f"Página {p} de {total_paginas}",
+                label_visibility="collapsed",
+            )
+
+    inicio = (pagina - 1) * COMANDOS_POR_PAGINA
+    for _, linha in filtrado.iloc[inicio : inicio + COMANDOS_POR_PAGINA].iterrows():
+        render_card(linha)
+
+
+def render_rodape() -> None:
+    st.markdown(
+        """
+        <div class="app-footer">
+            Ary Ribeiro |
+            <a href="https://linkedin.com/in/aryribeiro" target="_blank">linkedin.com/in/aryribeiro</a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def main() -> None:
+    render_cabecalho()
+
+    try:
+        df = load_data()
+    except FileNotFoundError:
+        st.error(f"❌ Arquivo '{CSV_PATH.name}' não encontrado na raiz do projeto!")
+        st.stop()
+    except (ValueError, pd.errors.ParserError) as erro:
+        st.error(f"❌ Erro ao carregar '{CSV_PATH.name}': {erro}")
+        st.stop()
+
+    render_estatisticas(df)
+    busca, categoria, tipo = render_filtros(df)
+
+    if busca:
+        st.markdown(
+            f'<div class="search-info">🔍 Mostrando resultados para: '
+            f"<strong>{escape(busca)}</strong></div>",  # escape(): sem isso, o campo de busca era XSS refletido
+            unsafe_allow_html=True,
+        )
+
+    render_resultados(aplicar_filtros(df, busca, categoria, tipo))
+    render_rodape()
+
 
 if __name__ == "__main__":
     main()
-
-st.markdown("""
-<style>
-    .main {
-        background-color: #ffffff;
-        color: #333333;
-    }
-    .block-container {
-        padding-top: 1rem;
-        padding-bottom: 0rem;
-    }
-    /* Esconde completamente todos os elementos da barra padrão do Streamlit */
-    header {display: none !important;}
-    footer {display: none !important;}
-    #MainMenu {display: none !important;}
-    /* Remove qualquer espaço em branco adicional */
-    div[data-testid="stAppViewBlockContainer"] {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-    div[data-testid="stVerticalBlock"] {
-        gap: 0 !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-    /* Remove quaisquer margens extras */
-    .element-container {
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
-    }
-</style>
-""", unsafe_allow_html=True)
