@@ -1,364 +1,824 @@
-comando,tipo,categoria,descricao
-__import__,builtin_function,sistema,"Importa um módulo dinamicamente"
-abs,builtin_function,matematica,"Retorna o valor absoluto de um número"
-aiter,builtin_function,iteracao,"Retorna um iterador assíncrono"
-all,builtin_function,logica,"Retorna True se todos os elementos de um iterável são verdadeiros"
-and,keyword,operador_logico,"Operador lógico E"
-anext,builtin_function,iteracao,"Obtém o próximo item de um iterador assíncrono"
-any,builtin_function,logica,"Retorna True se algum elemento de um iterável é verdadeiro"
-as,keyword,controle,"Usado para criar alias em imports e context managers"
-ascii,builtin_function,string,"Retorna uma representação ASCII de um objeto"
-assert,keyword,debug,"Usado para debugging - levanta AssertionError se condição é falsa"
-async,keyword,assincrono,"Define funções ou context managers assíncronos"
-await,keyword,assincrono,"Espera o resultado de uma operação assíncrona"
-bin,builtin_function,conversao,"Converte um número para representação binária"
-bool,builtin_function,conversao,"Converte um valor para booleano"
-break,keyword,controle,"Sai de um loop"
-breakpoint,builtin_function,debug,"Inicia o debugger Python"
-bytearray,builtin_function,conversao,"Cria um array de bytes mutável"
-bytes,builtin_function,conversao,"Cria um objeto bytes imutável"
-callable,builtin_function,inspecao,"Verifica se um objeto é chamável"
-case,keyword,controle,"Usado em match statements (Python 3.10+)"
-chr,builtin_function,string,"Converte um código Unicode para caractere"
-class,keyword,orientacao_objeto,"Define uma classe"
-classmethod,builtin_function,orientacao_objeto,"Decorador que define um método de classe"
-compile,builtin_function,sistema,"Compila código Python para objeto código"
-complex,builtin_function,matematica,"Cria um número complexo"
-continue,keyword,controle,"Pula para a próxima iteração de um loop"
-def,keyword,funcao,"Define uma função"
-del,keyword,memoria,"Deleta uma referência a um objeto"
-delattr,builtin_function,orientacao_objeto,"Remove um atributo de um objeto"
-dict,builtin_function,estrutura_dados,"Cria um dicionário"
-dir,builtin_function,inspecao,"Lista atributos e métodos de um objeto"
-divmod,builtin_function,matematica,"Retorna quociente e resto de uma divisão"
-elif,keyword,controle,"Condição alternativa em estruturas if"
-else,keyword,controle,"Cláusula alternativa em if, for, while, try"
-enumerate,builtin_function,iteracao,"Retorna um iterador com índices e valores"
-eval,builtin_function,sistema,"Avalia uma expressão Python"
-except,keyword,excecao,"Captura exceções"
-exec,builtin_function,sistema,"Executa código Python dinamicamente"
-exit,builtin_function,sistema,"Sai do interpretador Python"
-False,keyword,constante,"Valor booleano falso"
-filter,builtin_function,funcional,"Filtra elementos de um iterável usando uma função"
-finally,keyword,excecao,"Bloco sempre executado em try/except"
-float,builtin_function,conversao,"Converte um valor para número de ponto flutuante"
-for,keyword,controle,"Loop de iteração"
-format,builtin_function,string,"Formata um valor usando especificadores"
-frozenset,builtin_function,estrutura_dados,"Cria um conjunto imutável"
-from,keyword,import,"Importa itens específicos de um módulo"
-getattr,builtin_function,orientacao_objeto,"Obtém o valor de um atributo de um objeto"
-global,keyword,escopo,"Declara uma variável como global"
-globals,builtin_function,escopo,"Retorna o dicionário de variáveis globais"
-hasattr,builtin_function,orientacao_objeto,"Verifica se um objeto tem um atributo"
-hash,builtin_function,sistema,"Retorna o hash de um objeto"
-help,builtin_function,utilitario,"Exibe ajuda sobre objetos Python"
-hex,builtin_function,conversao,"Converte um número para hexadecimal"
-id,builtin_function,sistema,"Retorna o identificador único de um objeto"
-if,keyword,controle,"Estrutura condicional"
-import,keyword,import,"Importa um módulo"
-in,keyword,operador,"Verifica se um item está em uma sequência"
-input,builtin_function,io,"Lê entrada do usuário"
-int,builtin_function,conversao,"Converte um valor para número inteiro"
-is,keyword,operador,"Verifica identidade de objetos"
-isinstance,builtin_function,inspecao,"Verifica se um objeto é instância de uma classe"
-issubclass,builtin_function,inspecao,"Verifica se uma classe é subclasse de outra"
-iter,builtin_function,iteracao,"Cria um iterador"
-lambda,keyword,funcao,"Define uma função anônima"
-len,builtin_function,sequencia,"Retorna o tamanho de uma sequência"
-list,builtin_function,estrutura_dados,"Cria uma lista"
-locals,builtin_function,escopo,"Retorna o dicionário de variáveis locais"
-map,builtin_function,funcional,"Aplica uma função a todos os itens de um iterável"
-match,keyword,controle,"Estrutura de correspondência de padrões (Python 3.10+)"
-max,builtin_function,matematica,"Retorna o maior valor de uma sequência"
-memoryview,builtin_function,memoria,"Cria uma view de memória de um objeto"
-min,builtin_function,matematica,"Retorna o menor valor de uma sequência"
-next,builtin_function,iteracao,"Obtém o próximo item de um iterador"
-nonlocal,keyword,escopo,"Declara uma variável como não-local"
-None,keyword,constante,"Valor nulo"
-not,keyword,operador_logico,"Operador lógico NÃO"
-object,builtin_function,orientacao_objeto,"Classe base de todos os objetos"
-oct,builtin_function,conversao,"Converte um número para octal"
-open,builtin_function,io,"Abre um arquivo"
-or,keyword,operador_logico,"Operador lógico OU"
-ord,builtin_function,string,"Retorna o código Unicode de um caractere"
-pass,keyword,controle,"Instrução vazia (placeholder)"
-pow,builtin_function,matematica,"Eleva um número a uma potência"
-print,builtin_function,io,"Imprime valores na saída padrão"
-property,builtin_function,orientacao_objeto,"Cria uma propriedade de classe"
-quit,builtin_function,sistema,"Sai do interpretador Python"
-raise,keyword,excecao,"Levanta uma exceção"
-range,builtin_function,sequencia,"Gera uma sequência de números"
-repr,builtin_function,string,"Retorna a representação string de um objeto"
-return,keyword,funcao,"Retorna um valor de uma função"
-reversed,builtin_function,sequencia,"Retorna um iterador reverso"
-round,builtin_function,matematica,"Arredonda um número"
-set,builtin_function,estrutura_dados,"Cria um conjunto"
-setattr,builtin_function,orientacao_objeto,"Define o valor de um atributo de um objeto"
-slice,builtin_function,sequencia,"Cria um objeto slice"
-sorted,builtin_function,sequencia,"Retorna uma nova lista ordenada"
-staticmethod,builtin_function,orientacao_objeto,"Decorador que define um método estático"
-str,builtin_function,conversao,"Converte um valor para string"
-sum,builtin_function,matematica,"Soma os itens de um iterável"
-super,builtin_function,orientacao_objeto,"Acessa métodos da classe pai"
-True,keyword,constante,"Valor booleano verdadeiro"
-try,keyword,excecao,"Inicia um bloco de tratamento de exceções"
-tuple,builtin_function,estrutura_dados,"Cria uma tupla"
-type,builtin_function,inspecao,"Retorna o tipo de um objeto"
-vars,builtin_function,inspecao,"Retorna o dicionário __dict__ de um objeto"
-while,keyword,controle,"Loop condicional"
-with,keyword,contexto,"Gerenciador de contexto"
-yield,keyword,gerador,"Define um gerador"
-zip,builtin_function,iteracao,"Combina múltiplos iteráveis"
-append,list_method,lista,"Adiciona um elemento ao final da lista"
-clear,list_method,lista,"Remove todos os elementos da lista"
-copy,list_method,lista,"Cria uma cópia rasa da lista"
-count,list_method,lista,"Conta ocorrências de um elemento"
-extend,list_method,lista,"Estende a lista com elementos de outro iterável"
-index,list_method,lista,"Retorna o índice da primeira ocorrência"
-insert,list_method,lista,"Insere um elemento em uma posição específica"
-pop,list_method,lista,"Remove e retorna um elemento"
-remove,list_method,lista,"Remove a primeira ocorrência de um valor"
-reverse,list_method,lista,"Inverte a ordem dos elementos"
-sort,list_method,lista,"Ordena a lista in-place"
-capitalize,str_method,string,"Capitaliza a primeira letra"
-casefold,str_method,string,"Converte para minúsculas (case-insensitive)"
-center,str_method,string,"Centraliza a string em uma largura específica"
-endswith,str_method,string,"Verifica se termina com um sufixo"
-expandtabs,str_method,string,"Expande tabs para espaços"
-find,str_method,string,"Encontra a posição de uma substring"
-format,str_method,string,"Formata a string"
-format_map,str_method,string,"Formata usando um mapeamento"
-isalnum,str_method,string,"Verifica se todos os caracteres são alfanuméricos"
-isalpha,str_method,string,"Verifica se todos os caracteres são letras"
-isascii,str_method,string,"Verifica se todos os caracteres são ASCII"
-isdecimal,str_method,string,"Verifica se todos os caracteres são decimais"
-isdigit,str_method,string,"Verifica se todos os caracteres são dígitos"
-isidentifier,str_method,string,"Verifica se é um identificador válido"
-islower,str_method,string,"Verifica se todos os caracteres são minúsculos"
-isnumeric,str_method,string,"Verifica se todos os caracteres são numéricos"
-isprintable,str_method,string,"Verifica se todos os caracteres são imprimíveis"
-isspace,str_method,string,"Verifica se todos os caracteres são espaços"
-istitle,str_method,string,"Verifica se está em formato título"
-isupper,str_method,string,"Verifica se todos os caracteres são maiúsculos"
-join,str_method,string,"Junta elementos de um iterável"
-ljust,str_method,string,"Alinha à esquerda em uma largura específica"
-lower,str_method,string,"Converte para minúsculas"
-lstrip,str_method,string,"Remove espaços à esquerda"
-maketrans,str_method,string,"Cria uma tabela de tradução"
-partition,str_method,string,"Divide a string em três partes"
-replace,str_method,string,"Substitui ocorrências de uma substring"
-rfind,str_method,string,"Encontra a última ocorrência de uma substring"
-rindex,str_method,string,"Retorna o índice da última ocorrência"
-rjust,str_method,string,"Alinha à direita em uma largura específica"
-rpartition,str_method,string,"Divide a string em três partes (da direita)"
-rsplit,str_method,string,"Divide a string (da direita)"
-rstrip,str_method,string,"Remove espaços à direita"
-split,str_method,string,"Divide a string em uma lista"
-splitlines,str_method,string,"Divide em linhas"
-startswith,str_method,string,"Verifica se começa com um prefixo"
-strip,str_method,string,"Remove espaços das extremidades"
-swapcase,str_method,string,"Inverte maiúsculas e minúsculas"
-title,str_method,string,"Converte para formato título"
-translate,str_method,string,"Aplica tradução usando uma tabela"
-upper,str_method,string,"Converte para maiúsculas"
-zfill,str_method,string,"Preenche com zeros à esquerda"
-get,dict_method,dicionario,"Obtém um valor ou retorna um padrão"
-items,dict_method,dicionario,"Retorna pares chave-valor"
-keys,dict_method,dicionario,"Retorna as chaves"
-popitem,dict_method,dicionario,"Remove e retorna um item"
-setdefault,dict_method,dicionario,"Obtém valor ou define um padrão"
-update,dict_method,dicionario,"Atualiza com outro dicionário"
-values,dict_method,dicionario,"Retorna os valores"
-add,set_method,conjunto,"Adiciona um elemento ao conjunto"
-difference,set_method,conjunto,"Retorna a diferença entre conjuntos"
-difference_update,set_method,conjunto,"Remove elementos presentes em outro conjunto"
-discard,set_method,conjunto,"Remove um elemento (sem erro se não existir)"
-intersection,set_method,conjunto,"Retorna a interseção de conjuntos"
-intersection_update,set_method,conjunto,"Mantém apenas elementos em comum"
-isdisjoint,set_method,conjunto,"Verifica se não há elementos em comum"
-issubset,set_method,conjunto,"Verifica se é subconjunto"
-issuperset,set_method,conjunto,"Verifica se é superconjunto"
-symmetric_difference,set_method,conjunto,"Retorna diferença simétrica"
-symmetric_difference_update,set_method,conjunto,"Atualiza com diferença simétrica"
-union,set_method,conjunto,"Retorna a união de conjuntos"
-close,file_method,arquivo,"Fecha um arquivo"
-flush,file_method,arquivo,"Força escrita do buffer"
-read,file_method,arquivo,"Lê conteúdo do arquivo"
-readable,file_method,arquivo,"Verifica se é legível"
-readline,file_method,arquivo,"Lê uma linha"
-readlines,file_method,arquivo,"Lê todas as linhas"
-seek,file_method,arquivo,"Move o cursor no arquivo"
-seekable,file_method,arquivo,"Verifica se suporta seek"
-tell,file_method,arquivo,"Retorna posição atual"
-truncate,file_method,arquivo,"Trunca o arquivo"
-writable,file_method,arquivo,"Verifica se é gravável"
-write,file_method,arquivo,"Escreve no arquivo"
-writelines,file_method,arquivo,"Escreve múltiplas linhas"
-+,operator,aritmetico,"Adição ou concatenação"
--,operator,aritmetico,"Subtração ou negação"
-*,operator,aritmetico,"Multiplicação ou repetição"
-/,operator,aritmetico,"Divisão"
-//,operator,aritmetico,"Divisão inteira"
-%,operator,aritmetico,"Módulo (resto da divisão)"
-**,operator,aritmetico,"Exponenciação"
-==,operator,comparacao,"Igualdade"
-!=,operator,comparacao,"Diferença"
-<,operator,comparacao,"Menor que"
->,operator,comparacao,"Maior que"
-<=,operator,comparacao,"Menor ou igual"
->=,operator,comparacao,"Maior ou igual"
-=,operator,atribuicao,"Atribuição simples"
-+=,operator,atribuicao,"Adição e atribuição"
--=,operator,atribuicao,"Subtração e atribuição"
-*=,operator,atribuicao,"Multiplicação e atribuição"
-/=,operator,atribuicao,"Divisão e atribuição"
-//=,operator,atribuicao,"Divisão inteira e atribuição"
-%=,operator,atribuicao,"Módulo e atribuição"
-**=,operator,atribuicao,"Exponenciação e atribuição"
-&,operator,bitwise,"AND bitwise"
-|,operator,bitwise,"OR bitwise"
-^,operator,bitwise,"XOR bitwise"
-~,operator,bitwise,"NOT bitwise"
-<<,operator,bitwise,"Shift left"
->>,operator,bitwise,"Shift right"
-&=,operator,atribuicao,"AND bitwise e atribuição"
-|=,operator,atribuicao,"OR bitwise e atribuição"
-^=,operator,atribuicao,"XOR bitwise e atribuição"
-<<=,operator,atribuicao,"Shift left e atribuição"
->>=,operator,atribuicao,"Shift right e atribuição"
-chdir,os_module,sistema,"Muda o diretório atual"
-getcwd,os_module,sistema,"Obtém o diretório atual"
-listdir,os_module,sistema,"Lista conteúdo de um diretório"
-makedirs,os_module,sistema,"Cria diretórios recursivamente"
-mkdir,os_module,sistema,"Cria um diretório"
-remove,os_module,sistema,"Remove um arquivo"
-rename,os_module,sistema,"Renomeia um arquivo/diretório"
-rmdir,os_module,sistema,"Remove um diretório vazio"
-walk,os_module,sistema,"Percorre árvore de diretórios"
-path.exists,os_module,sistema,"Verifica se caminho existe"
-path.isdir,os_module,sistema,"Verifica se é diretório"
-path.isfile,os_module,sistema,"Verifica se é arquivo"
-path.join,os_module,sistema,"Junta componentes de caminho"
-path.split,os_module,sistema,"Divide um caminho"
-path.splitext,os_module,sistema,"Separa nome e extensão"
-getenv,os_module,sistema,"Obtém variável de ambiente"
-system,os_module,sistema,"Executa comando do sistema"
-argv,sys_module,sistema,"Argumentos da linha de comando"
-exit,sys_module,sistema,"Encerra o programa"
-path,sys_module,sistema,"Lista de caminhos de módulos"
-platform,sys_module,sistema,"Plataforma do sistema"
-version,sys_module,sistema,"Versão do Python"
-stdin,sys_module,io,"Entrada padrão"
-stdout,sys_module,io,"Saída padrão"
-stderr,sys_module,io,"Saída de erro"
-getsizeof,sys_module,sistema,"Tamanho em bytes de um objeto"
-modules,sys_module,sistema,"Dicionário de módulos carregados"
-now,datetime_module,tempo,"Data e hora atuais"
-today,datetime_module,tempo,"Data atual"
-strftime,datetime_module,tempo,"Formata data/hora como string"
-strptime,datetime_module,tempo,"Converte string em data/hora"
-timedelta,datetime_module,tempo,"Diferença entre datas"
-date,datetime_module,tempo,"Cria objeto de data"
-time,datetime_module,tempo,"Cria objeto de tempo"
-datetime,datetime_module,tempo,"Cria objeto de data/hora"
-sleep,time_module,tempo,"Pausa execução por segundos"
-time,time_module,tempo,"Timestamp atual"
-ctime,time_module,tempo,"Converte timestamp em string"
-gmtime,time_module,tempo,"Converte timestamp em struct_time UTC"
-localtime,time_module,tempo,"Converte timestamp em struct_time local"
-mktime,time_module,tempo,"Converte struct_time em timestamp"
-perf_counter,time_module,tempo,"Contador de alta precisão"
-process_time,time_module,tempo,"Tempo de processamento"
-strftime,time_module,tempo,"Formata struct_time como string"
-choice,random_module,aleatorio,"Escolhe elemento aleatório"
-choices,random_module,aleatorio,"Escolhe múltiplos elementos com peso"
-randint,random_module,aleatorio,"Inteiro aleatório em intervalo"
-random,random_module,aleatorio,"Float aleatório entre 0 e 1"
-randrange,random_module,aleatorio,"Número aleatório em range"
-sample,random_module,aleatorio,"Amostra aleatória sem reposição"
-seed,random_module,aleatorio,"Define semente aleatória"
-shuffle,random_module,aleatorio,"Embaralha lista in-place"
-uniform,random_module,aleatorio,"Float aleatório em intervalo"
-gauss,random_module,aleatorio,"Distribuição gaussiana"
-compile,re_module,regex,"Compila padrão regex"
-findall,re_module,regex,"Encontra todas as ocorrências"
-finditer,re_module,regex,"Iterador de matches"
-match,re_module,regex,"Match no início da string"
-search,re_module,regex,"Busca padrão na string"
-split,re_module,regex,"Divide string usando regex"
-sub,re_module,regex,"Substitui usando regex"
-subn,re_module,regex,"Substitui e conta ocorrências"
-escape,re_module,regex,"Escapa caracteres especiais"
-fullmatch,re_module,regex,"Match na string inteira"
-loads,json_module,json,"Converte JSON string para objeto Python"
-dumps,json_module,json,"Converte objeto Python para JSON string"
-load,json_module,json,"Carrega JSON de arquivo"
-dump,json_module,json,"Salva objeto como JSON em arquivo"
-acos,math_module,matematica,"Arco cosseno"
-acosh,math_module,matematica,"Arco cosseno hiperbólico"
-asin,math_module,matematica,"Arco seno"
-asinh,math_module,matematica,"Arco seno hiperbólico"
-atan,math_module,matematica,"Arco tangente"
-atan2,math_module,matematica,"Arco tangente de y/x"
-atanh,math_module,matematica,"Arco tangente hiperbólico"
-ceil,math_module,matematica,"Arredonda para cima"
-cos,math_module,matematica,"Cosseno"
-cosh,math_module,matematica,"Cosseno hiperbólico"
-degrees,math_module,matematica,"Converte radianos para graus"
-exp,math_module,matematica,"e elevado a x"
-fabs,math_module,matematica,"Valor absoluto de float"
-factorial,math_module,matematica,"Fatorial de um número"
-floor,math_module,matematica,"Arredonda para baixo"
-gcd,math_module,matematica,"Máximo divisor comum"
-log,math_module,matematica,"Logaritmo natural"
-log10,math_module,matematica,"Logaritmo base 10"
-pi,math_module,matematica,"Constante pi"
-pow,math_module,matematica,"x elevado a y"
-radians,math_module,matematica,"Converte graus para radianos"
-sin,math_module,matematica,"Seno"
-sinh,math_module,matematica,"Seno hiperbólico"
-sqrt,math_module,matematica,"Raiz quadrada"
-tan,math_module,matematica,"Tangente"
-tanh,math_module,matematica,"Tangente hiperbólica"
-trunc,math_module,matematica,"Trunca parte decimal"
-e,math_module,matematica,"Constante e (Euler)"
-isfinite,math_module,matematica,"Verifica se é finito"
-isinf,math_module,matematica,"Verifica se é infinito"
-isnan,math_module,matematica,"Verifica se é NaN"
-combinations,itertools_module,iteracao,"Combinações de elementos"
-combinations_with_replacement,itertools_module,iteracao,"Combinações com reposição"
-count,itertools_module,iteracao,"Contador infinito"
-cycle,itertools_module,iteracao,"Cicla através de um iterável"
-permutations,itertools_module,iteracao,"Permutações de elementos"
-product,itertools_module,iteracao,"Produto cartesiano"
-repeat,itertools_module,iteracao,"Repete um valor"
-chain,itertools_module,iteracao,"Encadeia iteráveis"
-compress,itertools_module,iteracao,"Filtra baseado em seletores"
-dropwhile,itertools_module,iteracao,"Descarta enquanto condição é verdadeira"
-takewhile,itertools_module,iteracao,"Toma enquanto condição é verdadeira"
-groupby,itertools_module,iteracao,"Agrupa elementos consecutivos"
-islice,itertools_module,iteracao,"Slice de iterador"
-defaultdict,collections_module,estrutura_dados,"Dicionário com valor padrão"
-deque,collections_module,estrutura_dados,"Fila dupla (double-ended queue)"
-Counter,collections_module,estrutura_dados,"Contador de elementos"
-OrderedDict,collections_module,estrutura_dados,"Dicionário que mantém ordem"
-namedtuple,collections_module,estrutura_dados,"Tupla nomeada"
-ChainMap,collections_module,estrutura_dados,"Combina múltiplos dicionários"
-UserDict,collections_module,estrutura_dados,"Classe base para dicionários customizados"
-UserList,collections_module,estrutura_dados,"Classe base para listas customizadas"
-UserString,collections_module,estrutura_dados,"Classe base para strings customizadas"
-partial,functools_module,funcional,"Aplicação parcial de função"
-reduce,functools_module,funcional,"Aplica função cumulativamente"
-wraps,functools_module,funcional,"Decorador para preservar metadados"
-lru_cache,functools_module,funcional,"Cache LRU para funções"
-singledispatch,functools_module,funcional,"Função genérica baseada no tipo"
-cached_property,functools_module,funcional,"Propriedade com cache"
-copy,copy_module,objeto,"Cópia rasa de um objeto"
-deepcopy,copy_module,objeto,"Cópia profunda de um objeto"
-urlopen,urllib_module,web,"Abre uma URL"
-urlparse,urllib_module,web,"Analisa uma URL"
-quote,urllib_module,web,"Codifica URL"
-unquote,urllib_module,web,"Decodifica URL"
-urlencode,urllib_module,web,"Codifica parâmetros de URL"
-Request,urllib_module,web,"Cria requisição HTTP"
-build_opener,urllib_module,web,"Constrói um abridor de URL"
+comando,tipo,categoria,descricao,nivel,importancia,sintaxe,exemplo,saida,armadilha,veja_tambem,trilha,executavel
+__import__,builtin_function,sistema,Importa um módulo dinamicamente,,,,,,,,,
+abs,builtin_function,matematica,Retorna o valor absoluto de um número,,,,,,,,,
+aiter,builtin_function,iteracao,Retorna um iterador assíncrono,,,,,,,,,
+all,builtin_function,logica,Retorna True se todos os elementos de um iterável são verdadeiros,intermediario,3,all(iteravel),"print(all([True, True]))
+print(all([1, 0, 3]))
+print(all([]))          # vazio é True!","True
+False
+True",all([]) é True (verdade vacuosa) e any([]) é False. Isso quebra validações em cima de lista vazia.,any|bool|filter,colecoes,1
+and,keyword,operador_logico,Operador lógico E,,,,,,,,,
+anext,builtin_function,iteracao,Obtém o próximo item de um iterador assíncrono,,,,,,,,,
+any,builtin_function,logica,Retorna True se algum elemento de um iterável é verdadeiro,intermediario,3,any(iteravel),"print(any([False, True]))
+print(any([0, 0]))
+print(any([]))          # vazio é False","True
+False
+False","any([]) é False, all([]) é True. Guarde essa assimetria.",all|bool|filter,colecoes,1
+as,keyword,controle,Usado para criar alias em imports e context managers,,,,,,,,,
+ascii,builtin_function,string,Retorna uma representação ASCII de um objeto,,,,,,,,,
+assert,keyword,debug,Usado para debugging - levanta AssertionError se condição é falsa,,,,,,,,,
+async,keyword,assincrono,Define funções ou context managers assíncronos,,,,,,,,,
+await,keyword,assincrono,Espera o resultado de uma operação assíncrona,,,,,,,,,
+bin,builtin_function,conversao,Converte um número para representação binária,,,,,,,,,
+bool,builtin_function,conversao,Converte um valor para booleano,iniciante,2,bool(objeto),"print(bool(0), bool(1))
+print(bool(""""), bool(""oi""))
+print(bool([]), bool([0]))
+print(bool(""False""))   # cuidado","False True
+False True
+False True
+True","Vazio é falso: 0, '', [], {}, None. Mas a string 'False' é NÃO-vazia, logo é True!",if|not|all|any,primeiros_passos,1
+break,keyword,controle,Sai de um loop,iniciante,1,break,"for i in range(10):
+    if i == 3:
+        break
+    print(i)","0
+1
+2",break só sai do laço MAIS INTERNO. Em laços aninhados ele não sai de todos — use uma flag ou extraia para uma função com return.,continue|for|while|else,fluxo,1
+breakpoint,builtin_function,debug,Inicia o debugger Python,,,,,,,,,
+bytearray,builtin_function,conversao,Cria um array de bytes mutável,,,,,,,,,
+bytes,builtin_function,conversao,Cria um objeto bytes imutável,,,,,,,,,
+callable,builtin_function,inspecao,Verifica se um objeto é chamável,,,,,,,,,
+case,keyword,controle,Usado em match statements (Python 3.10+),,,,,,,,,
+chr,builtin_function,string,Converte um código Unicode para caractere,,,,,,,,,
+class,keyword,orientacao_objeto,Define uma classe,intermediario,1,"class Nome:\n    def __init__(self, ...):","class Aluno:
+    def __init__(self, nome):
+        self.nome = nome
+
+    def falar(self):
+        return f""sou {self.nome}""
+
+a = Aluno(""Ana"")
+print(a.falar())
+print(a.nome)","sou Ana
+Ana",`self` é obrigatório como primeiro parâmetro dos métodos. E atributo criado FORA do __init__ (direto no corpo da classe) é COMPARTILHADO por todas as instâncias — clássico bug com lista.,self|__init__|super,objetos,1
+classmethod,builtin_function,orientacao_objeto,Decorador que define um método de classe,,,,,,,,,
+compile,builtin_function,sistema,Compila código Python para objeto código,,,,,,,,,
+complex,builtin_function,matematica,Cria um número complexo,,,,,,,,,
+continue,keyword,controle,Pula para a próxima iteração de um loop,iniciante,2,continue,"for i in range(5):
+    if i % 2 == 0:
+        continue      # pula os pares
+    print(i)","1
+3","Em um while, se o continue vier ANTES do incremento, a variável nunca avança e o loop trava para sempre.",break|for|while,fluxo,1
+def,keyword,funcao,Define uma função,iniciante,1,def nome(parametros):\n    return valor,"def saudacao(nome, saudar=""Olá""):
+    return f""{saudar}, {nome}!""
+
+print(saudacao(""Ana""))
+print(saudacao(""Bia"", saudar=""Oi""))","Olá, Ana!
+Oi, Bia!",NUNCA use lista ou dict como valor padrão: `def f(x=[])` reaproveita a MESMA lista entre chamadas. Use x=None e crie dentro.,return|lambda|args,funcoes,1
+del,keyword,memoria,Deleta uma referência a um objeto,,,,,,,,,
+delattr,builtin_function,orientacao_objeto,Remove um atributo de um objeto,,,,,,,,,
+dict,builtin_function,estrutura_dados,Cria um dicionário,iniciante,1,dict(**kwargs) ou {chave: valor},"aluno = {""nome"": ""Ana"", ""nota"": 9}
+print(aluno[""nome""])
+aluno[""curso""] = ""Python""    # cria a chave
+print(aluno)
+print(list(aluno.keys()))","Ana
+{'nome': 'Ana', 'nota': 9, 'curso': 'Python'}
+['nome', 'nota', 'curso']",Acessar chave inexistente com [] levanta KeyError. Use .get() para não quebrar. Chaves precisam ser imutáveis: lista não pode ser chave.,get|items|keys|setdefault,colecoes,1
+dir,builtin_function,inspecao,Lista atributos e métodos de um objeto,,,,,,,,,
+divmod,builtin_function,matematica,Retorna quociente e resto de uma divisão,,,,,,,,,
+elif,keyword,controle,Condição alternativa em estruturas if,,,,,,,,,
+else,keyword,controle,"Cláusula alternativa em if, for, while, try",,,,,,,,,
+enumerate,builtin_function,iteracao,Retorna um iterador com índices e valores,iniciante,1,"enumerate(iteravel, start=0)","for i, fruta in enumerate([""maçã"", ""uva""]):
+    print(i, fruta)
+
+for i, fruta in enumerate([""maçã"", ""uva""], start=1):
+    print(i, fruta)","0 maçã
+1 uva
+1 maçã
+2 uva","É o jeito certo de ter índice no for. `for i in range(len(lista))` funciona, mas é o sinal clássico de código iniciante.",range|zip|for,colecoes|fluxo,1
+eval,builtin_function,sistema,Avalia uma expressão Python,,,,,,,,,
+except,keyword,excecao,Captura exceções,iniciante,1,except TipoDeErro as e:,"for valor in [""10"", ""abc""]:
+    try:
+        print(int(valor))
+    except ValueError:
+        print(f""'{valor}' não é número"")","10
+'abc' não é número",`except Exception` captura quase tudo e vira lixeira de bugs. Prefira o erro exato. E ordene do mais específico para o mais genérico.,try|raise|finally,erros,1
+exec,builtin_function,sistema,Executa código Python dinamicamente,,,,,,,,,
+exit,builtin_function,sistema,Sai do interpretador Python,,,,,,,,,
+False,keyword,constante,Valor booleano falso,,,,,,,,,
+filter,builtin_function,funcional,Filtra elementos de um iterável usando uma função,intermediario,2,"filter(funcao, iteravel)","nums = [1, 2, 3, 4]
+print(list(filter(lambda x: x % 2 == 0, nums)))
+print(list(filter(None, [0, 1, """", ""oi""])))   # None: remove os falsos","[2, 4]
+[1, 'oi']","Igual ao map: devolve iterador que se esgota. filter(None, x) é um truque para remover valores falsos.",map|list|bool,funcoes,1
+finally,keyword,excecao,Bloco sempre executado em try/except,intermediario,3,finally:,"def f():
+    try:
+        return ""do try""
+    finally:
+        print(""finally roda mesmo com return"")
+
+print(f())","finally roda mesmo com return
+do try",finally roda SEMPRE — inclusive depois de um return. E um return dentro do finally ENGOLE a exceção que estava subindo.,try|except|with,erros,1
+float,builtin_function,conversao,Converte um valor para número de ponto flutuante,iniciante,1,float(x),"print(float(""3.14""))
+print(0.1 + 0.2)                 # olha a surpresa
+print(0.1 + 0.2 == 0.3)
+print(round(0.1 + 0.2, 2) == 0.3)","3.14
+0.30000000000000004
+False
+True",0.1 + 0.2 NÃO é 0.3 em float (é 0.30000000000000004). Nunca compare floats com ==; use round() ou math.isclose().,int|round|decimal,primeiros_passos,1
+for,keyword,controle,Loop de iteração,iniciante,1,for item in iteravel:\n    ...,"for fruta in [""maçã"", ""uva""]:
+    print(fruta)
+
+for i in range(3):
+    print(i)","maçã
+uva
+0
+1
+2",NUNCA modifique a lista enquanto a percorre — remover itens durante o for pula elementos. Itere sobre uma cópia: for x in lista[:].,range|while|enumerate|break,primeiros_passos|fluxo,1
+format,builtin_function,string,Formata um valor usando especificadores,,,,,,,,,
+frozenset,builtin_function,estrutura_dados,Cria um conjunto imutável,,,,,,,,,
+from,keyword,import,Importa itens específicos de um módulo,,,,,,,,,
+getattr,builtin_function,orientacao_objeto,Obtém o valor de um atributo de um objeto,,,,,,,,,
+global,keyword,escopo,Declara uma variável como global,intermediario,3,global nome,"contador = 0
+
+def incrementa():
+    global contador     # sem isso: UnboundLocalError
+    contador += 1
+
+incrementa()
+incrementa()
+print(contador)",2,"Sem `global`, atribuir a uma variável dentro da função cria uma variável LOCAL nova — e ler antes de atribuir dá UnboundLocalError. Usar global é sinal de código a melhorar.",nonlocal|locals|globals,funcoes|escopo,1
+globals,builtin_function,escopo,Retorna o dicionário de variáveis globais,,,,,,,,,
+hasattr,builtin_function,orientacao_objeto,Verifica se um objeto tem um atributo,,,,,,,,,
+hash,builtin_function,sistema,Retorna o hash de um objeto,,,,,,,,,
+help,builtin_function,utilitario,Exibe ajuda sobre objetos Python,iniciante,2,help(objeto),help(len),,"Dentro de scripts help() imprime e devolve None. No terminal interativo, help() sem argumento abre um modo que só sai com 'q'.",dir|type|vars,primeiros_passos,0
+hex,builtin_function,conversao,Converte um número para hexadecimal,,,,,,,,,
+id,builtin_function,sistema,Retorna o identificador único de um objeto,intermediario,3,id(objeto),"a = [1, 2]
+b = a
+c = a.copy()
+print(id(a) == id(b))   # mesmo objeto
+print(id(a) == id(c))   # cópia: outro objeto","True
+False","id() é o endereço do objeto — `a is b` é o mesmo que `id(a) == id(b)`. Números pequenos e strings curtas são CACHEADOS pelo Python, o que faz `is` parecer funcionar por acidente.",is|copy|type,objetos,1
+if,keyword,controle,Estrutura condicional,iniciante,1,if condicao:\n    ...\nelif outra:\n    ...\nelse:\n    ...,"nota = 7
+if nota >= 9:
+    print(""excelente"")
+elif nota >= 6:
+    print(""aprovado"")
+else:
+    print(""reprovado"")",aprovado,"Use == para comparar, não = (atribuição). E cuidado: `if x = 5:` é SyntaxError, mas `if x := 5:` (walrus) é válido e sempre verdadeiro.",elif|else|not|bool,primeiros_passos|fluxo,1
+import,keyword,import,Importa um módulo,,,,,,,,,
+in,keyword,operador,Verifica se um item está em uma sequência,iniciante,1,item in colecao,"print(""a"" in ""casa"")
+print(3 in [1, 2, 3])
+print(""nome"" in {""nome"": ""Ana""})   # olha nas CHAVES
+print(""Ana"" in {""nome"": ""Ana""})","True
+True
+True
+False","Em dicionário, `in` procura nas CHAVES, nunca nos valores. Para valores: 'Ana' in d.values().",for|not|dict.get,primeiros_passos|colecoes,1
+input,builtin_function,io,Lê entrada do usuário,iniciante,1,input(prompt=''),"idade = input(""Sua idade: "")
+print(type(idade))     # SEMPRE str, mesmo que você digite 30
+idade = int(idade)     # converta antes de fazer conta
+print(idade + 1)",,input() devolve SEMPRE uma string. `input() + 1` explode com TypeError; `input() * 2` duplica o texto ('3' vira '33'). Converta com int() ou float().,print|int|float,primeiros_passos,0
+int,builtin_function,conversao,Converte um valor para número inteiro,iniciante,1,"int(x, base=10)","print(int(""42""))
+print(int(3.99))        # trunca, não arredonda
+print(int(""ff"", 16))    # hexadecimal","42
+3
+255","int(3.99) dá 3, não 4 — ele TRUNCA. Para arredondar use round(). E int('3.5') levanta ValueError: só aceita inteiro em texto.",float|round|str,primeiros_passos,1
+is,keyword,operador,Verifica identidade de objetos,intermediario,1,a is b,"a = [1, 2]
+b = [1, 2]
+print(a == b)    # mesmo CONTEÚDO
+print(a is b)    # mesmo OBJETO na memória
+c = a
+print(a is c)","True
+False
+True","`is` compara IDENTIDADE, não valor. Use `is` só com None/True/False. Com números e strings ele às vezes 'funciona' por cache do Python — e falha quando você menos espera.",==|id|None,fluxo|objetos,1
+isinstance,builtin_function,inspecao,Verifica se um objeto é instância de uma classe,intermediario,2,"isinstance(objeto, tipo)","print(isinstance(5, int))
+print(isinstance(5, (int, float)))   # aceita tupla
+print(isinstance(True, int))         # bool É int!","True
+True
+True","bool é subclasse de int: isinstance(True, int) é True e True + True é 2. Isso surpreende em validações.",type|issubclass|hasattr,objetos,1
+issubclass,builtin_function,inspecao,Verifica se uma classe é subclasse de outra,,,,,,,,,
+iter,builtin_function,iteracao,Cria um iterador,,,,,,,,,
+lambda,keyword,funcao,Define uma função anônima,intermediario,2,lambda args: expressao,"dobro = lambda x: x * 2
+print(dobro(4))
+
+pares = sorted([(2, ""b""), (1, ""a"")], key=lambda t: t[0])
+print(pares)","8
+[(1, 'a'), (2, 'b')]",lambda só aceita UMA expressão — não cabe if/for/return dentro. E dar nome a uma lambda (dobro = lambda...) é justamente o que a PEP 8 pede para não fazer: use def.,def|map|filter|sorted,funcoes,1
+len,builtin_function,sequencia,Retorna o tamanho de uma sequência,iniciante,1,len(sequencia),"print(len(""Python""))
+print(len([10, 20, 30]))
+print(len({""a"": 1, ""b"": 2}))","6
+3
+2","len() não funciona em números: len(42) dá TypeError. E em dicionário conta as CHAVES, não os pares.",range|enumerate|sum,primeiros_passos|colecoes,1
+list,builtin_function,estrutura_dados,Cria uma lista,iniciante,1,list(iteravel),"print(list(""abc""))
+print(list(range(3)))
+nums = [3, 1, 2]
+print(nums[0], nums[-1])   # índice negativo conta do fim","['a', 'b', 'c']
+[0, 1, 2]
+3 2",Listas começam no índice 0. E `lista2 = lista1` NÃO copia: os dois nomes apontam para a MESMA lista. Use lista1.copy().,append|sorted|copy|tuple,colecoes,1
+locals,builtin_function,escopo,Retorna o dicionário de variáveis locais,,,,,,,,,
+map,builtin_function,funcional,Aplica uma função a todos os itens de um iterável,intermediario,2,"map(funcao, iteravel)","nums = [1, 2, 3]
+print(list(map(str, nums)))
+print(list(map(lambda x: x**2, nums)))
+m = map(str, nums)
+print(list(m))
+print(list(m))     # ACABOU: só dá pra consumir uma vez","['1', '2', '3']
+[1, 4, 9]
+['1', '2', '3']
+[]","map devolve um ITERADOR preguiçoso, não uma lista — e ele se esgota após um uso. Envolva em list() se for reutilizar.",filter|list|lambda,funcoes,1
+match,keyword,controle,Estrutura de correspondência de padrões (Python 3.10+),,,,,,,,,
+max,builtin_function,matematica,Retorna o maior valor de uma sequência,iniciante,2,"max(iteravel, key=None)","print(max([3, 1, 2]))
+print(max(""banana""))                    # maior LETRA
+print(max([""ana"", ""bia""], key=len))","3
+n
+ana","max() de lista vazia levanta ValueError. Passe default=: max([], default=0).",min|sorted|sum,colecoes,1
+memoryview,builtin_function,memoria,Cria uma view de memória de um objeto,,,,,,,,,
+min,builtin_function,matematica,Retorna o menor valor de uma sequência,iniciante,3,"min(iteravel, key=None)","print(min([3, 1, 2]))
+print(min([], default=""vazio""))","1
+vazio",Igual ao max: lista vazia sem default= levanta ValueError.,max|sorted,colecoes,1
+next,builtin_function,iteracao,Obtém o próximo item de um iterador,,,,,,,,,
+nonlocal,keyword,escopo,Declara uma variável como não-local,,,,,,,,,
+None,keyword,constante,Valor nulo,,,,,,,,,
+not,keyword,operador_logico,Operador lógico NÃO,,,,,,,,,
+object,builtin_function,orientacao_objeto,Classe base de todos os objetos,,,,,,,,,
+oct,builtin_function,conversao,Converte um número para octal,,,,,,,,,
+open,builtin_function,io,Abre um arquivo,iniciante,1,"open(caminho, modo='r', encoding=None)","with open(""dados.txt"", ""w"", encoding=""utf-8"") as f:
+    f.write(""Olá\nmundo\n"")
+
+with open(""dados.txt"", encoding=""utf-8"") as f:
+    print(f.read())","Olá
+mundo",Modo 'w' APAGA o arquivo existente na hora de abrir. Para acrescentar use 'a'. E sempre passe encoding='utf-8': o padrão varia por sistema e quebra acentos no Windows.,with|read|write|close,arquivos,1
+or,keyword,operador_logico,Operador lógico OU,,,,,,,,,
+ord,builtin_function,string,Retorna o código Unicode de um caractere,,,,,,,,,
+pass,keyword,controle,Instrução vazia (placeholder),iniciante,2,pass,"def ainda_nao_implementei():
+    pass
+
+for i in range(3):
+    pass
+print(""o pass não faz nada, só ocupa o lugar"")","o pass não faz nada, só ocupa o lugar",pass não é 'continue' nem 'return'. Ele literalmente não faz nada — existe só porque Python exige um corpo indentado.,continue|def|class,fluxo,1
+pow,builtin_function,matematica,Eleva um número a uma potência,,,,,,,,,
+print,builtin_function,io,Imprime valores na saída padrão,iniciante,1,"print(*objetos, sep=' ', end='\n')","print(""Olá"", ""mundo"")
+print(""A"", ""B"", ""C"", sep=""-"")
+print(""sem quebra"", end="" >> "")
+print(""fim"")","Olá mundo
+A-B-C
+sem quebra >> fim","print() SEMPRE devolve None. `x = print('oi')` guarda None em x, não o texto. Para transformar em texto use str() ou f-string.",input|str|format,primeiros_passos,1
+property,builtin_function,orientacao_objeto,Cria uma propriedade de classe,,,,,,,,,
+quit,builtin_function,sistema,Sai do interpretador Python,,,,,,,,,
+raise,keyword,excecao,Levanta uma exceção,intermediario,2,raise TipoDeErro('mensagem'),"def sacar(saldo, valor):
+    if valor > saldo:
+        raise ValueError(""saldo insuficiente"")
+    return saldo - valor
+
+try:
+    sacar(100, 500)
+except ValueError as e:
+    print(""erro:"", e)",erro: saldo insuficiente,"Dentro de um except, `raise` sozinho relança o erro original preservando o rastro. `raise e` também funciona, mas perde parte do traceback.",try|except|assert,erros,1
+range,builtin_function,sequencia,Gera uma sequência de números,iniciante,1,"range(inicio, fim, passo)","print(list(range(5)))
+print(list(range(2, 8)))
+print(list(range(0, 10, 3)))
+print(list(range(5, 0, -1)))","[0, 1, 2, 3, 4]
+[2, 3, 4, 5, 6, 7]
+[0, 3, 6, 9]
+[5, 4, 3, 2, 1]","O fim é EXCLUSIVO: range(5) vai de 0 a 4. E range não é lista — print(range(3)) mostra 'range(0, 3)'; envolva em list() para ver.",for|len|enumerate,primeiros_passos|fluxo,1
+repr,builtin_function,string,Retorna a representação string de um objeto,,,,,,,,,
+return,keyword,funcao,Retorna um valor de uma função,iniciante,1,return valor,"def dobro(x):
+    return x * 2
+
+def nada(x):
+    x * 2          # sem return!
+
+print(dobro(5))
+print(nada(5))     # None","10
+None",Função sem return devolve None. E `print()` NÃO é `return`: quem só imprime não entrega valor para quem chamou.,def|yield|None,funcoes,1
+reversed,builtin_function,sequencia,Retorna um iterador reverso,,,,,,,,,
+round,builtin_function,matematica,Arredonda um número,iniciante,1,"round(numero, casas=0)","print(round(3.7))
+print(round(3.14159, 2))
+print(round(2.5))    # esperava 3?
+print(round(3.5))","4
+3.14
+2
+4","round() usa arredondamento bancário: round(2.5) é 2, não 3! Empates vão para o PAR mais próximo. round(3.5) é 4.",int|math.ceil|math.floor,primeiros_passos,1
+set,builtin_function,estrutura_dados,Cria um conjunto,iniciante,2,"set(iteravel) ou {a, b}","nums = [1, 2, 2, 3, 3]
+unicos = set(nums)
+print(unicos)
+print(len(unicos))
+print(type({}))       # chaves vazias = DICT, não set
+print(type(set()))","{1, 2, 3}
+3
+<class 'dict'>
+<class 'set'>","{} cria um DICIONÁRIO vazio, não um conjunto! Conjunto vazio só com set(). E conjunto não tem ordem nem índice: s[0] dá TypeError.",add|union|list|dict,colecoes,1
+setattr,builtin_function,orientacao_objeto,Define o valor de um atributo de um objeto,,,,,,,,,
+slice,builtin_function,sequencia,Cria um objeto slice,,,,,,,,,
+sorted,builtin_function,sequencia,Retorna uma nova lista ordenada,iniciante,1,"sorted(iteravel, key=None, reverse=False)","nums = [3, 1, 2]
+print(sorted(nums))
+print(nums)                       # original intacto
+print(sorted(nums, reverse=True))
+print(sorted([""Ana"", ""bia""], key=str.lower))","[1, 2, 3]
+[3, 1, 2]
+[3, 2, 1]
+['Ana', 'bia']",sorted() devolve lista NOVA (o original fica intacto) — é o oposto de .sort(). E ordenar strings sem key coloca maiúsculas antes: 'Z' < 'a'.,sort|reversed|min|max,colecoes,1
+staticmethod,builtin_function,orientacao_objeto,Decorador que define um método estático,,,,,,,,,
+str,builtin_function,conversao,Converte um valor para string,iniciante,1,str(objeto),"n = 42
+print(""idade: "" + str(n))   # concatenar exige str
+print(f""idade: {n}"")        # f-string converte sozinha","idade: 42
+idade: 42","'texto' + 42 dá TypeError. Ou converta com str(), ou use f-string (que é o jeito moderno).",int|repr|format,primeiros_passos|texto,1
+sum,builtin_function,matematica,Soma os itens de um iterável,iniciante,2,"sum(iteravel, start=0)","print(sum([1, 2, 3]))
+print(sum([1.5, 2.5]))
+print(sum([]))          # vazio: 0, sem erro","6
+4.0
+0","sum() não soma strings: sum(['a','b']) dá TypeError. Para juntar texto use ''.join().",join|max|min|len,colecoes,1
+super,builtin_function,orientacao_objeto,Acessa métodos da classe pai,avancado,3,super().metodo(),"class Animal:
+    def __init__(self, nome):
+        self.nome = nome
+
+class Cao(Animal):
+    def __init__(self, nome):
+        super().__init__(nome)   # chama o pai
+        self.som = ""au""
+
+c = Cao(""Rex"")
+print(c.nome, c.som)",Rex au,"Esquecer o super().__init__() faz os atributos do pai simplesmente não existirem — e o erro só aparece lá na frente, como AttributeError.",class|__init__,objetos,1
+True,keyword,constante,Valor booleano verdadeiro,,,,,,,,,
+try,keyword,excecao,Inicia um bloco de tratamento de exceções,iniciante,1,try:\n    ...\nexcept Erro:\n    ...,"try:
+    n = int(""abc"")
+except ValueError as e:
+    print(""deu ruim:"", e)
+finally:
+    print(""sempre roda"")","deu ruim: invalid literal for int() with base 10: 'abc'
+sempre roda","NUNCA use `except:` pelado — ele captura até Ctrl+C e SystemExit, escondendo bugs. Capture o erro específico (ValueError, KeyError...).",except|raise|finally,erros,1
+tuple,builtin_function,estrutura_dados,Cria uma tupla,iniciante,2,"tuple(iteravel) ou (a, b)","ponto = (10, 20)
+x, y = ponto          # desempacotar
+print(x, y)
+print(type((1)))      # NÃO é tupla!
+print(type((1,)))     # a vírgula é que faz a tupla","10 20
+<class 'int'>
+<class 'tuple'>","(1) é só o número 1 entre parênteses. Tupla de um elemento exige vírgula: (1,). Tuplas são IMUTÁVEIS: não dá para append.",list|set|zip,colecoes,1
+type,builtin_function,inspecao,Retorna o tipo de um objeto,iniciante,1,type(objeto),"print(type(42))
+print(type(3.14))
+print(type(""oi""))
+print(type([1, 2]))","<class 'int'>
+<class 'float'>
+<class 'str'>
+<class 'list'>","Para checar tipo em código real prefira isinstance(x, int): type() ignora herança, isinstance() respeita.",isinstance|id|dir,primeiros_passos,1
+vars,builtin_function,inspecao,Retorna o dicionário __dict__ de um objeto,,,,,,,,,
+while,keyword,controle,Loop condicional,iniciante,1,while condicao:\n    ...,"n = 3
+while n > 0:
+    print(n)
+    n -= 1     # sem isso: loop infinito
+print(""fim"")","3
+2
+1
+fim","Esquecer de alterar a variável da condição = loop infinito. Se usar `while True:`, garanta um break alcançável.",for|break|continue,fluxo,1
+with,keyword,contexto,Gerenciador de contexto,iniciante,1,with expressao as nome:,"with open(""teste.txt"", ""w"") as f:
+    f.write(""linha 1"")
+# arquivo fechado automaticamente aqui
+print(f.closed)",True,"Sem `with`, esquecer o close() deixa o arquivo aberto e o conteúdo pode nem chegar ao disco. with fecha até se der exceção.",open|close|try,arquivos|erros,1
+yield,keyword,gerador,Define um gerador,avancado,3,yield valor,"def contar(n):
+    for i in range(n):
+        yield i
+
+g = contar(3)
+print(list(g))
+print(list(g))    # gerador esgotado","[0, 1, 2]
+[]","Qualquer função com yield vira GERADOR: chamar ela não executa nada, só devolve o gerador. E ele roda uma vez só.",return|next|iter,funcoes,1
+zip,builtin_function,iteracao,Combina múltiplos iteráveis,intermediario,2,"zip(iteravel1, iteravel2, ...)","nomes = [""ana"", ""bia"", ""caio""]
+notas = [9, 7]
+for nome, nota in zip(nomes, notas):
+    print(nome, nota)      # 'caio' some!
+print(list(zip(""ab"", [1, 2])))","ana 9
+bia 7
+[('a', 1), ('b', 2)]","zip PARA no menor iterável, silenciosamente. Se as listas têm tamanhos diferentes, você perde dados sem aviso. Use zip(..., strict=True) no Python 3.10+.",enumerate|map|dict,colecoes,1
+append,list_method,lista,Adiciona um elemento ao final da lista,iniciante,1,lista.append(item),"nums = [1, 2]
+nums.append(3)
+print(nums)
+nums.append([4, 5])   # adiciona a LISTA como um único item
+print(nums)
+print(len(nums))","[1, 2, 3]
+[1, 2, 3, [4, 5]]
+4",append() modifica a lista e devolve None. `nums = nums.append(3)` transforma nums em None! Para juntar listas use extend().,extend|insert|pop|remove,colecoes,1
+clear,list_method,lista,Remove todos os elementos da lista,iniciante,3,lista.clear(),"nums = [1, 2, 3]
+nums.clear()
+print(nums)",[],"clear() esvazia o objeto ORIGINAL (todos que apontam pra ele veem o vazio). `nums = []` só troca o nome, deixando o objeto antigo intacto para os outros.",del|pop|copy,colecoes,1
+copy,list_method,lista,Cria uma cópia rasa da lista,intermediario,1,lista.copy(),"a = [1, 2, 3]
+b = a           # NÃO é cópia: mesmo objeto
+c = a.copy()    # cópia de verdade
+a.append(99)
+print(""b:"", b)
+print(""c:"", c)","b: [1, 2, 3, 99]
+c: [1, 2, 3]","A cópia é RASA: se a lista tem listas dentro, os internos continuam compartilhados. Para independência total use copy.deepcopy().",deepcopy|slice|list,colecoes|objetos,1
+count,list_method,lista,Conta ocorrências de um elemento,iniciante,3,lista.count(valor),"nums = [1, 2, 2, 3, 2]
+print(nums.count(2))
+print(nums.count(9))   # não achou: 0, sem erro","3
+0",Não confunda com itertools.count (contador infinito). Este aqui só conta ocorrências.,index|in|Counter,colecoes,1
+extend,list_method,lista,Estende a lista com elementos de outro iterável,iniciante,2,lista.extend(iteravel),"a = [1, 2]
+a.extend([3, 4])
+print(a)
+b = [1]
+b.extend(""oi"")     # string é iterável: vira letra por letra
+print(b)","[1, 2, 3, 4]
+[1, 'o', 'i']","extend() de uma string espalha as letras: [1].extend('oi') vira [1, 'o', 'i']. Se quer a string inteira, use append().",append|+|insert,colecoes,1
+index,list_method,lista,Retorna o índice da primeira ocorrência,iniciante,2,lista.index(valor),"letras = [""a"", ""b"", ""c"", ""b""]
+print(letras.index(""b""))    # primeira ocorrência",1,"Se o valor não existe, levanta ValueError (não devolve -1 como o .find() das strings). Cheque com `in` antes.",in|count|find,colecoes,1
+insert,list_method,lista,Insere um elemento em uma posição específica,iniciante,3,"lista.insert(indice, item)","nums = [1, 3]
+nums.insert(1, 2)
+print(nums)
+nums.insert(99, 4)   # índice além do fim: vai pro final, sem erro
+print(nums)","[1, 2, 3]
+[1, 2, 3, 4]",Índice fora do alcance NÃO dá erro: joga no começo ou no fim. E insert() no início é lento em listas grandes — use collections.deque.,append|extend|deque,colecoes,1
+pop,list_method,lista,Remove e retorna um elemento,iniciante,2,lista.pop(indice=-1),"nums = [10, 20, 30]
+print(nums.pop())     # último por padrão
+print(nums.pop(0))    # pelo índice
+print(nums)","30
+10
+[20]","pop() DEVOLVE o item e remove. Em lista vazia levanta IndexError. Diferente de remove(), que busca pelo VALOR e devolve None.",remove|append|del,colecoes,1
+remove,list_method,lista,Remove a primeira ocorrência de um valor,iniciante,2,lista.remove(valor),"nums = [1, 2, 3, 2]
+nums.remove(2)      # só a PRIMEIRA ocorrência
+print(nums)","[1, 3, 2]","remove() apaga só a primeira ocorrência e devolve None. Se o valor não existe, levanta ValueError.",pop|del|clear,colecoes,1
+reverse,list_method,lista,Inverte a ordem dos elementos,iniciante,3,lista.reverse(),"nums = [1, 2, 3]
+nums.reverse()
+print(nums)","[3, 2, 1]",Inverte no lugar e devolve None. Para uma cópia invertida: lista[::-1] ou list(reversed(lista)).,reversed|sort|slice,colecoes,1
+sort,list_method,lista,Ordena a lista in-place,iniciante,1,"lista.sort(key=None, reverse=False)","nums = [3, 1, 2]
+nums.sort()
+print(nums)
+
+palavras = [""banana"", ""oi"", ""casa""]
+palavras.sort(key=len)
+print(palavras)","[1, 2, 3]
+['oi', 'casa', 'banana']","sort() ordena NO LUGAR e devolve None — `x = lista.sort()` deixa x = None. Se quer uma lista nova, use sorted().",sorted|reverse|key,colecoes,1
+capitalize,str_method,string,Capitaliza a primeira letra,,,,,,,,,
+casefold,str_method,string,Converte para minúsculas (case-insensitive),,,,,,,,,
+center,str_method,string,Centraliza a string em uma largura específica,,,,,,,,,
+endswith,str_method,string,Verifica se termina com um sufixo,,,,,,,,,
+expandtabs,str_method,string,Expande tabs para espaços,,,,,,,,,
+find,str_method,string,Encontra a posição de uma substring,iniciante,3,texto.find(sub),"print(""casa"".find(""s""))
+print(""casa"".find(""z""))    # não achou: -1","2
+-1",find() devolve -1 quando não acha; index() levanta ValueError. E -1 é 'verdadeiro' num if! Compare explicitamente: if s.find('z') != -1.,index|in|rfind,texto,1
+format,str_method,string,Formata a string,iniciante,2,'{}'.format(valor),"print(""{} tem {} anos"".format(""Ana"", 30))
+print(""{:.2f}"".format(3.14159))
+print(f""{3.14159:.2f}"")     # f-string: jeito moderno","Ana tem 30 anos
+3.14
+3.14",Hoje prefira f-string: f'{nome}' é mais curto e mais rápido que .format(). Mas .format() ainda é útil com template guardado em variável.,f-string|str|print,texto,1
+format_map,str_method,string,Formata usando um mapeamento,,,,,,,,,
+isalnum,str_method,string,Verifica se todos os caracteres são alfanuméricos,,,,,,,,,
+isalpha,str_method,string,Verifica se todos os caracteres são letras,,,,,,,,,
+isascii,str_method,string,Verifica se todos os caracteres são ASCII,,,,,,,,,
+isdecimal,str_method,string,Verifica se todos os caracteres são decimais,,,,,,,,,
+isdigit,str_method,string,Verifica se todos os caracteres são dígitos,,,,,,,,,
+isidentifier,str_method,string,Verifica se é um identificador válido,,,,,,,,,
+islower,str_method,string,Verifica se todos os caracteres são minúsculos,,,,,,,,,
+isnumeric,str_method,string,Verifica se todos os caracteres são numéricos,,,,,,,,,
+isprintable,str_method,string,Verifica se todos os caracteres são imprimíveis,,,,,,,,,
+isspace,str_method,string,Verifica se todos os caracteres são espaços,,,,,,,,,
+istitle,str_method,string,Verifica se está em formato título,,,,,,,,,
+isupper,str_method,string,Verifica se todos os caracteres são maiúsculos,,,,,,,,,
+join,str_method,string,Junta elementos de um iterável,iniciante,1,separador.join(iteravel_de_strings),"print("", "".join([""a"", ""b"", ""c""]))
+print("""".join([""1"", ""2""]))
+print(""-"".join(""abc""))","a, b, c
+12
+a-b-c","É o SEPARADOR que chama o join, não a lista: ', '.join(lista). E só aceita strings — join([1,2]) dá TypeError; converta com map(str, ...).",split|str|sum,texto,1
+ljust,str_method,string,Alinha à esquerda em uma largura específica,,,,,,,,,
+lower,str_method,string,Converte para minúsculas,iniciante,2,texto.lower(),"print(""OLÁ"".lower())
+print(""Ana"" == ""ana"")
+print(""Ana"".lower() == ""ana"")   # jeito certo de comparar sem case","olá
+False
+True","Para comparar textos ignorando maiúsculas de forma robusta (com acento/alemão), casefold() é mais correto que lower().",upper|casefold|title,texto,1
+lstrip,str_method,string,Remove espaços à esquerda,,,,,,,,,
+maketrans,str_method,string,Cria uma tabela de tradução,,,,,,,,,
+partition,str_method,string,Divide a string em três partes,,,,,,,,,
+replace,str_method,string,Substitui ocorrências de uma substring,iniciante,1,"texto.replace(velho, novo, count=-1)","s = ""oi oi oi""
+print(s.replace(""oi"", ""ola""))
+print(s.replace(""oi"", ""ola"", 1))   # só a primeira
+print(s)                           # original INTACTO","ola ola ola
+ola oi oi
+oi oi oi",Strings são IMUTÁVEIS: replace devolve uma string nova e não altera a original. `s.replace(...)` sozinho não faz nada — precisa de s = s.replace(...).,strip|split|sub,texto,1
+rfind,str_method,string,Encontra a última ocorrência de uma substring,,,,,,,,,
+rindex,str_method,string,Retorna o índice da última ocorrência,,,,,,,,,
+rjust,str_method,string,Alinha à direita em uma largura específica,,,,,,,,,
+rpartition,str_method,string,Divide a string em três partes (da direita),,,,,,,,,
+rsplit,str_method,string,Divide a string (da direita),,,,,,,,,
+rstrip,str_method,string,Remove espaços à direita,,,,,,,,,
+split,str_method,string,Divide a string em uma lista,iniciante,1,"texto.split(sep=None, maxsplit=-1)","print(""a,b,c"".split("",""))
+print(""  oi   mundo  "".split())     # sem sep: quebra em qualquer espaço
+print(""a,,b"".split("",""))            # campo vazio é preservado","['a', 'b', 'c']
+['oi', 'mundo']
+['a', '', 'b']",split() sem argumento ignora espaços extras; split(' ') NÃO ignora e devolve strings vazias. São comportamentos diferentes!,join|strip|replace,texto,1
+splitlines,str_method,string,Divide em linhas,,,,,,,,,
+startswith,str_method,string,Verifica se começa com um prefixo,iniciante,3,texto.startswith(prefixo),"print(""arquivo.py"".startswith(""arq""))
+print(""arquivo.py"".endswith(("".py"", "".txt"")))   # aceita tupla","True
+True",Aceita uma TUPLA de opções — é mais limpo que encadear vários or.,endswith|find|in,texto,1
+strip,str_method,string,Remove espaços das extremidades,iniciante,1,texto.strip(chars=None),"print(repr(""  oi  "".strip()))
+print(repr(""xxoixx"".strip(""x"")))
+print(repr(""banana"".strip(""ba"")))   # surpresa!","'oi'
+'oi'
+'nan'","strip('abc') não remove a SUBSTRING 'abc': remove qualquer um dos CARACTERES a, b ou c das pontas, um a um. Por isso 'banana'.strip('ba') vira 'nan', e não 'banana' nem 'n'.",lstrip|rstrip|replace,texto,1
+swapcase,str_method,string,Inverte maiúsculas e minúsculas,,,,,,,,,
+title,str_method,string,Converte para formato título,iniciante,3,texto.title(),"print(""ana maria"".title())
+print(""it's ok"".title())    # olha o apóstrofo","Ana Maria
+It'S Ok","title() capitaliza depois de QUALQUER não-letra: ""it's ok"" vira ""It'S Ok"". Para uma frase, capitalize() costuma ser o que você quer.",capitalize|upper|lower,texto,1
+translate,str_method,string,Aplica tradução usando uma tabela,,,,,,,,,
+upper,str_method,string,Converte para maiúsculas,iniciante,2,texto.upper(),"print(""olá"".upper())
+s = ""abc""
+s.upper()          # jogado fora!
+print(s)
+s = s.upper()      # agora sim
+print(s)","OLÁ
+abc
+ABC","Como toda operação de string, devolve uma nova e não muda a original. Precisa reatribuir.",lower|title|capitalize,texto,1
+zfill,str_method,string,Preenche com zeros à esquerda,,,,,,,,,
+get,dict_method,dicionario,Obtém um valor ou retorna um padrão,iniciante,1,"dicionario.get(chave, padrao=None)","aluno = {""nome"": ""Ana""}
+print(aluno.get(""nome""))
+print(aluno.get(""nota""))          # não existe: None, sem quebrar
+print(aluno.get(""nota"", 0))       # com valor padrão","Ana
+None
+0",get() nunca levanta KeyError — devolve None calado. Isso esconde erro de digitação na chave: sempre passe um padrão explícito.,dict|setdefault|in,colecoes,1
+items,dict_method,dicionario,Retorna pares chave-valor,iniciante,1,dicionario.items(),"aluno = {""nome"": ""Ana"", ""nota"": 9}
+for chave, valor in aluno.items():
+    print(chave, ""->"", valor)","nome -> Ana
+nota -> 9",Não dá para modificar o dicionário enquanto percorre .items() — dá RuntimeError. Itere sobre list(d.items()).,keys|values|dict,colecoes,1
+keys,dict_method,dicionario,Retorna as chaves,iniciante,2,dicionario.keys(),"aluno = {""nome"": ""Ana"", ""nota"": 9}
+print(list(aluno.keys()))
+print(""nome"" in aluno)     # não precisa de .keys() aqui","['nome', 'nota']
+True","keys() devolve uma VIEW, não uma lista: ela muda junto com o dicionário. Para congelar, envolva em list().",values|items|in,colecoes,1
+popitem,dict_method,dicionario,Remove e retorna um item,,,,,,,,,
+setdefault,dict_method,dicionario,Obtém valor ou define um padrão,intermediario,3,"dicionario.setdefault(chave, padrao)","grupos = {}
+grupos.setdefault(""a"", []).append(1)
+grupos.setdefault(""a"", []).append(2)
+print(grupos)","{'a': [1, 2]}","Diferente de get(), o setdefault ESCREVE a chave no dicionário se ela não existir. Para agrupar, defaultdict costuma ser mais limpo.",get|defaultdict|dict,colecoes,1
+update,dict_method,dicionario,Atualiza com outro dicionário,iniciante,3,dicionario.update(outro),"a = {""x"": 1}
+a.update({""y"": 2, ""x"": 99})   # sobrescreve o x
+print(a)","{'x': 99, 'y': 2}",update() SOBRESCREVE chaves existentes sem avisar. Modifica no lugar e devolve None.,dict|setdefault|items,colecoes,1
+values,dict_method,dicionario,Retorna os valores,iniciante,2,dicionario.values(),"notas = {""ana"": 9, ""bia"": 7}
+print(list(notas.values()))
+print(sum(notas.values()))","[9, 7]
+16","É uma view, igual a keys(). E `9 in notas` procura nas chaves — para valores é `9 in notas.values()`.",keys|items|sum,colecoes,1
+add,set_method,conjunto,Adiciona um elemento ao conjunto,iniciante,3,conjunto.add(item),"s = {1, 2}
+s.add(3)
+s.add(2)      # já existe: ignora, sem erro
+print(sorted(s))","[1, 2, 3]","Em conjunto é add(); em lista é append(). Adicionar repetido não dá erro, simplesmente não faz nada.",set|union|discard,colecoes,1
+difference,set_method,conjunto,Retorna a diferença entre conjuntos,,,,,,,,,
+difference_update,set_method,conjunto,Remove elementos presentes em outro conjunto,,,,,,,,,
+discard,set_method,conjunto,Remove um elemento (sem erro se não existir),,,,,,,,,
+intersection,set_method,conjunto,Retorna a interseção de conjuntos,,,,,,,,,
+intersection_update,set_method,conjunto,Mantém apenas elementos em comum,,,,,,,,,
+isdisjoint,set_method,conjunto,Verifica se não há elementos em comum,,,,,,,,,
+issubset,set_method,conjunto,Verifica se é subconjunto,,,,,,,,,
+issuperset,set_method,conjunto,Verifica se é superconjunto,,,,,,,,,
+symmetric_difference,set_method,conjunto,Retorna diferença simétrica,,,,,,,,,
+symmetric_difference_update,set_method,conjunto,Atualiza com diferença simétrica,,,,,,,,,
+union,set_method,conjunto,Retorna a união de conjuntos,,,,,,,,,
+close,file_method,arquivo,Fecha um arquivo,,,,,,,,,
+flush,file_method,arquivo,Força escrita do buffer,,,,,,,,,
+read,file_method,arquivo,Lê conteúdo do arquivo,iniciante,2,arquivo.read(tamanho=-1),"with open(""d.txt"", ""w"") as f:
+    f.write(""a\nb\n"")
+
+with open(""d.txt"") as f:
+    print(repr(f.read()))
+    print(repr(f.read()))   # segunda vez: vazio!","'a\nb\n'
+''","Depois de ler, o cursor fica no fim: um segundo read() devolve ''. Volte com f.seek(0). E read() carrega o arquivo INTEIRO na memória.",readline|readlines|seek,arquivos,1
+readable,file_method,arquivo,Verifica se é legível,,,,,,,,,
+readline,file_method,arquivo,Lê uma linha,,,,,,,,,
+readlines,file_method,arquivo,Lê todas as linhas,iniciante,3,arquivo.readlines(),"with open(""d.txt"", ""w"") as f:
+    f.write(""a\nb\n"")
+
+with open(""d.txt"") as f:
+    print(f.readlines())    # o \n vem junto!","['a\n', 'b\n']","Cada linha vem COM o '\n' no fim. Use .strip() ou percorra o arquivo direto: `for linha in f`, que é mais econômico em memória.",read|readline|strip,arquivos,1
+seek,file_method,arquivo,Move o cursor no arquivo,,,,,,,,,
+seekable,file_method,arquivo,Verifica se suporta seek,,,,,,,,,
+tell,file_method,arquivo,Retorna posição atual,,,,,,,,,
+truncate,file_method,arquivo,Trunca o arquivo,,,,,,,,,
+writable,file_method,arquivo,Verifica se é gravável,,,,,,,,,
+write,file_method,arquivo,Escreve no arquivo,iniciante,2,arquivo.write(texto),"with open(""d.txt"", ""w"") as f:
+    n = f.write(""oi"")
+    f.write(""tudo bem"")     # NÃO pula linha sozinho
+print(n, ""caracteres escritos"")
+
+with open(""d.txt"") as f:
+    print(f.read())","2 caracteres escritos
+oitudo bem",write() NÃO adiciona quebra de linha — você precisa escrever '\n' na mão. E só aceita string: write(42) dá TypeError.,writelines|open|read,arquivos,1
+writelines,file_method,arquivo,Escreve múltiplas linhas,,,,,,,,,
++,operator,aritmetico,Adição ou concatenação,,,,,,,,,
+-,operator,aritmetico,Subtração ou negação,,,,,,,,,
+*,operator,aritmetico,Multiplicação ou repetição,,,,,,,,,
+/,operator,aritmetico,Divisão,,,,,,,,,
+//,operator,aritmetico,Divisão inteira,,,,,,,,,
+%,operator,aritmetico,Módulo (resto da divisão),,,,,,,,,
+**,operator,aritmetico,Exponenciação,,,,,,,,,
+==,operator,comparacao,Igualdade,,,,,,,,,
+!=,operator,comparacao,Diferença,,,,,,,,,
+<,operator,comparacao,Menor que,,,,,,,,,
+>,operator,comparacao,Maior que,,,,,,,,,
+<=,operator,comparacao,Menor ou igual,,,,,,,,,
+>=,operator,comparacao,Maior ou igual,,,,,,,,,
+=,operator,atribuicao,Atribuição simples,,,,,,,,,
++=,operator,atribuicao,Adição e atribuição,,,,,,,,,
+-=,operator,atribuicao,Subtração e atribuição,,,,,,,,,
+*=,operator,atribuicao,Multiplicação e atribuição,,,,,,,,,
+/=,operator,atribuicao,Divisão e atribuição,,,,,,,,,
+//=,operator,atribuicao,Divisão inteira e atribuição,,,,,,,,,
+%=,operator,atribuicao,Módulo e atribuição,,,,,,,,,
+**=,operator,atribuicao,Exponenciação e atribuição,,,,,,,,,
+&,operator,bitwise,AND bitwise,,,,,,,,,
+|,operator,bitwise,OR bitwise,,,,,,,,,
+^,operator,bitwise,XOR bitwise,,,,,,,,,
+~,operator,bitwise,NOT bitwise,,,,,,,,,
+<<,operator,bitwise,Shift left,,,,,,,,,
+>>,operator,bitwise,Shift right,,,,,,,,,
+&=,operator,atribuicao,AND bitwise e atribuição,,,,,,,,,
+|=,operator,atribuicao,OR bitwise e atribuição,,,,,,,,,
+^=,operator,atribuicao,XOR bitwise e atribuição,,,,,,,,,
+<<=,operator,atribuicao,Shift left e atribuição,,,,,,,,,
+>>=,operator,atribuicao,Shift right e atribuição,,,,,,,,,
+chdir,os_module,sistema,Muda o diretório atual,,,,,,,,,
+getcwd,os_module,sistema,Obtém o diretório atual,,,,,,,,,
+listdir,os_module,sistema,Lista conteúdo de um diretório,,,,,,,,,
+makedirs,os_module,sistema,Cria diretórios recursivamente,,,,,,,,,
+mkdir,os_module,sistema,Cria um diretório,,,,,,,,,
+remove,os_module,sistema,Remove um arquivo,,,,,,,,,
+rename,os_module,sistema,Renomeia um arquivo/diretório,,,,,,,,,
+rmdir,os_module,sistema,Remove um diretório vazio,,,,,,,,,
+walk,os_module,sistema,Percorre árvore de diretórios,,,,,,,,,
+path.exists,os_module,sistema,Verifica se caminho existe,,,,,,,,,
+path.isdir,os_module,sistema,Verifica se é diretório,,,,,,,,,
+path.isfile,os_module,sistema,Verifica se é arquivo,,,,,,,,,
+path.join,os_module,sistema,Junta componentes de caminho,intermediario,2,"os.path.join(a, b, ...)","import os
+print(os.path.join(""pasta"", ""sub"", ""arq.txt""))
+print(os.path.join(""pasta"", ""/raiz""))   # barra inicial ZERA o anterior","pasta\sub\arq.txt
+/raiz",Um trecho começando com '/' descarta tudo que veio antes. E hoje o caminho moderno é pathlib: Path('pasta') / 'arq.txt'.,path.exists|getcwd|listdir,ferramentas|arquivos,1
+path.split,os_module,sistema,Divide um caminho,,,,,,,,,
+path.splitext,os_module,sistema,Separa nome e extensão,,,,,,,,,
+getenv,os_module,sistema,Obtém variável de ambiente,,,,,,,,,
+system,os_module,sistema,Executa comando do sistema,,,,,,,,,
+argv,sys_module,sistema,Argumentos da linha de comando,,,,,,,,,
+exit,sys_module,sistema,Encerra o programa,,,,,,,,,
+path,sys_module,sistema,Lista de caminhos de módulos,,,,,,,,,
+platform,sys_module,sistema,Plataforma do sistema,,,,,,,,,
+version,sys_module,sistema,Versão do Python,,,,,,,,,
+stdin,sys_module,io,Entrada padrão,,,,,,,,,
+stdout,sys_module,io,Saída padrão,,,,,,,,,
+stderr,sys_module,io,Saída de erro,,,,,,,,,
+getsizeof,sys_module,sistema,Tamanho em bytes de um objeto,,,,,,,,,
+modules,sys_module,sistema,Dicionário de módulos carregados,,,,,,,,,
+now,datetime_module,tempo,Data e hora atuais,,,,,,,,,
+today,datetime_module,tempo,Data atual,,,,,,,,,
+strftime,datetime_module,tempo,Formata data/hora como string,intermediario,2,data.strftime(formato),"from datetime import datetime
+d = datetime(2024, 3, 15, 14, 30)
+print(d.strftime(""%d/%m/%Y""))
+print(d.strftime(""%H:%M""))","15/03/2024
+14:30",strftime FORMATA (data -> texto); strptime PARSEIA (texto -> data). Trocar os dois é o erro clássico. Dica: o 'p' é de parse.,strptime|datetime|now,ferramentas,1
+strptime,datetime_module,tempo,Converte string em data/hora,intermediario,2,"datetime.strptime(texto, formato)","from datetime import datetime
+d = datetime.strptime(""15/03/2024"", ""%d/%m/%Y"")
+print(d)
+print(d.year, d.month, d.day)","2024-03-15 00:00:00
+2024 3 15","O formato precisa bater EXATAMENTE com o texto, senão ValueError. '2024-3-5' não casa com '%Y-%m-%d'? Casa sim — mas '15/3/24' não casa com '%d/%m/%Y'.",strftime|datetime,ferramentas,1
+timedelta,datetime_module,tempo,Diferença entre datas,,,,,,,,,
+date,datetime_module,tempo,Cria objeto de data,,,,,,,,,
+time,datetime_module,tempo,Cria objeto de tempo,,,,,,,,,
+datetime,datetime_module,tempo,Cria objeto de data/hora,,,,,,,,,
+sleep,time_module,tempo,Pausa execução por segundos,,,,,,,,,
+time,time_module,tempo,Timestamp atual,,,,,,,,,
+ctime,time_module,tempo,Converte timestamp em string,,,,,,,,,
+gmtime,time_module,tempo,Converte timestamp em struct_time UTC,,,,,,,,,
+localtime,time_module,tempo,Converte timestamp em struct_time local,,,,,,,,,
+mktime,time_module,tempo,Converte struct_time em timestamp,,,,,,,,,
+perf_counter,time_module,tempo,Contador de alta precisão,,,,,,,,,
+process_time,time_module,tempo,Tempo de processamento,,,,,,,,,
+strftime,time_module,tempo,Formata struct_time como string,,,,,,,,,
+choice,random_module,aleatorio,Escolhe elemento aleatório,iniciante,3,random.choice(sequencia),"import random
+random.seed(1)
+print(random.choice([""pedra"", ""papel"", ""tesoura""]))",pedra,choice() de sequência vazia levanta IndexError. E não funciona em set (não tem índice) — converta para list antes.,randint|shuffle|sample,ferramentas,1
+choices,random_module,aleatorio,Escolhe múltiplos elementos com peso,,,,,,,,,
+randint,random_module,aleatorio,Inteiro aleatório em intervalo,iniciante,2,"random.randint(a, b)","import random
+random.seed(42)               # semente: resultado reproduzível
+print(random.randint(1, 6))
+print(random.randint(1, 6))","6
+1","randint(1, 6) INCLUI o 6 — é o único da família que fecha nas duas pontas (range e randrange excluem o fim).",choice|shuffle|seed,ferramentas,1
+random,random_module,aleatorio,Float aleatório entre 0 e 1,,,,,,,,,
+randrange,random_module,aleatorio,Número aleatório em range,,,,,,,,,
+sample,random_module,aleatorio,Amostra aleatória sem reposição,,,,,,,,,
+seed,random_module,aleatorio,Define semente aleatória,,,,,,,,,
+shuffle,random_module,aleatorio,Embaralha lista in-place,iniciante,3,random.shuffle(lista),"import random
+random.seed(7)
+cartas = [1, 2, 3, 4, 5]
+random.shuffle(cartas)
+print(cartas)","[5, 1, 4, 2, 3]","Embaralha NO LUGAR e devolve None: `cartas = random.shuffle(cartas)` destrói sua lista. Para uma cópia embaralhada use random.sample(l, len(l)).",sample|choice|sort,ferramentas,1
+uniform,random_module,aleatorio,Float aleatório em intervalo,,,,,,,,,
+gauss,random_module,aleatorio,Distribuição gaussiana,,,,,,,,,
+compile,re_module,regex,Compila padrão regex,,,,,,,,,
+findall,re_module,regex,Encontra todas as ocorrências,intermediario,2,"re.findall(padrao, texto)","import re
+texto = ""tel: 1234-5678 e 9999-0000""
+print(re.findall(r""\d{4}-\d{4}"", texto))
+print(re.findall(r""z"", texto))     # não achou: lista vazia","['1234-5678', '9999-0000']
+[]","Use SEMPRE string crua (r'...') em regex, senão '\d' vira escape do Python. E se o padrão tem grupos (), findall devolve os GRUPOS, não a correspondência inteira.",search|match|sub|compile,ferramentas,1
+finditer,re_module,regex,Iterador de matches,,,,,,,,,
+match,re_module,regex,Match no início da string,,,,,,,,,
+search,re_module,regex,Busca padrão na string,intermediario,2,"re.search(padrao, texto)","import re
+m = re.search(r""(\d+)-(\d+)"", ""tel 1234-5678"")
+print(m.group(0))
+print(m.group(1))
+print(re.search(r""z"", ""abc""))    # None","1234-5678
+1234
+None",search procura em QUALQUER lugar; match só no COMEÇO. E quando não acha devolve None — chamar .group() em None dá AttributeError. Sempre teste `if m:`.,match|findall|fullmatch,ferramentas,1
+split,re_module,regex,Divide string usando regex,,,,,,,,,
+sub,re_module,regex,Substitui usando regex,intermediario,2,"re.sub(padrao, troca, texto)","import re
+print(re.sub(r""\s+"", "" "", ""muito    espaco   aqui""))
+print(re.sub(r""\d"", ""#"", ""abc123""))","muito espaco aqui
+abc###","Devolve texto novo (string é imutável). E a troca também interpreta escapes: para uma barra invertida literal, escape ou use função.",findall|search|replace,ferramentas,1
+subn,re_module,regex,Substitui e conta ocorrências,,,,,,,,,
+escape,re_module,regex,Escapa caracteres especiais,,,,,,,,,
+fullmatch,re_module,regex,Match na string inteira,,,,,,,,,
+loads,json_module,json,Converte JSON string para objeto Python,intermediario,2,json.loads(texto),"import json
+d = json.loads('{""nome"": ""Ana"", ""ativo"": true}')
+print(d[""nome""])
+print(d[""ativo""], type(d[""ativo""]))   # true -> True","Ana
+True <class 'bool'>","loads lê STRING; load (sem s) lê ARQUIVO. E JSON exige aspas DUPLAS: json.loads(""{'a':1}"") dá JSONDecodeError.",dumps|load|dict,ferramentas,1
+dumps,json_module,json,Converte objeto Python para JSON string,intermediario,2,"json.dumps(obj, indent=None, ensure_ascii=True)","import json
+d = {""nome"": ""Ana"", ""nota"": 9}
+print(json.dumps(d))
+print(json.dumps(d, ensure_ascii=False, indent=2))","{""nome"": ""Ana"", ""nota"": 9}
+{
+  ""nome"": ""Ana"",
+  ""nota"": 9
+}","Por padrão ensure_ascii=True escapa acentos ('Ana' fica ok, mas 'João' vira 'Jo\\u00e3o'). Passe ensure_ascii=False. E dumps NÃO serializa datetime.",loads|dump|dict,ferramentas,1
+load,json_module,json,Carrega JSON de arquivo,,,,,,,,,
+dump,json_module,json,Salva objeto como JSON em arquivo,,,,,,,,,
+acos,math_module,matematica,Arco cosseno,,,,,,,,,
+acosh,math_module,matematica,Arco cosseno hiperbólico,,,,,,,,,
+asin,math_module,matematica,Arco seno,,,,,,,,,
+asinh,math_module,matematica,Arco seno hiperbólico,,,,,,,,,
+atan,math_module,matematica,Arco tangente,,,,,,,,,
+atan2,math_module,matematica,Arco tangente de y/x,,,,,,,,,
+atanh,math_module,matematica,Arco tangente hiperbólico,,,,,,,,,
+ceil,math_module,matematica,Arredonda para cima,iniciante,3,math.ceil(x),"import math
+print(math.ceil(3.1))
+print(math.floor(3.9))
+print(round(3.5), round(2.5))   # bancário!","4
+3
+4 2","ceil sempre sobe, floor sempre desce, round faz arredondamento bancário. Três comportamentos diferentes — escolha consciente.",floor|round|int,ferramentas,1
+cos,math_module,matematica,Cosseno,,,,,,,,,
+cosh,math_module,matematica,Cosseno hiperbólico,,,,,,,,,
+degrees,math_module,matematica,Converte radianos para graus,,,,,,,,,
+exp,math_module,matematica,e elevado a x,,,,,,,,,
+fabs,math_module,matematica,Valor absoluto de float,,,,,,,,,
+factorial,math_module,matematica,Fatorial de um número,,,,,,,,,
+floor,math_module,matematica,Arredonda para baixo,,,,,,,,,
+gcd,math_module,matematica,Máximo divisor comum,,,,,,,,,
+log,math_module,matematica,Logaritmo natural,,,,,,,,,
+log10,math_module,matematica,Logaritmo base 10,,,,,,,,,
+pi,math_module,matematica,Constante pi,,,,,,,,,
+pow,math_module,matematica,x elevado a y,,,,,,,,,
+radians,math_module,matematica,Converte graus para radianos,,,,,,,,,
+sin,math_module,matematica,Seno,,,,,,,,,
+sinh,math_module,matematica,Seno hiperbólico,,,,,,,,,
+sqrt,math_module,matematica,Raiz quadrada,iniciante,2,math.sqrt(x),"import math
+print(math.sqrt(16))
+print(16 ** 0.5)          # mesma coisa, sem import","4.0
+4.0","math.sqrt(-1) levanta ValueError. Para raiz de negativo use cmath. E devolve sempre float: sqrt(4) é 4.0, não 4.",pow|**|ceil|floor,ferramentas,1
+tan,math_module,matematica,Tangente,,,,,,,,,
+tanh,math_module,matematica,Tangente hiperbólica,,,,,,,,,
+trunc,math_module,matematica,Trunca parte decimal,,,,,,,,,
+e,math_module,matematica,Constante e (Euler),,,,,,,,,
+isfinite,math_module,matematica,Verifica se é finito,,,,,,,,,
+isinf,math_module,matematica,Verifica se é infinito,,,,,,,,,
+isnan,math_module,matematica,Verifica se é NaN,,,,,,,,,
+combinations,itertools_module,iteracao,Combinações de elementos,,,,,,,,,
+combinations_with_replacement,itertools_module,iteracao,Combinações com reposição,,,,,,,,,
+count,itertools_module,iteracao,Contador infinito,,,,,,,,,
+cycle,itertools_module,iteracao,Cicla através de um iterável,,,,,,,,,
+permutations,itertools_module,iteracao,Permutações de elementos,,,,,,,,,
+product,itertools_module,iteracao,Produto cartesiano,,,,,,,,,
+repeat,itertools_module,iteracao,Repete um valor,,,,,,,,,
+chain,itertools_module,iteracao,Encadeia iteráveis,,,,,,,,,
+compress,itertools_module,iteracao,Filtra baseado em seletores,,,,,,,,,
+dropwhile,itertools_module,iteracao,Descarta enquanto condição é verdadeira,,,,,,,,,
+takewhile,itertools_module,iteracao,Toma enquanto condição é verdadeira,,,,,,,,,
+groupby,itertools_module,iteracao,Agrupa elementos consecutivos,,,,,,,,,
+islice,itertools_module,iteracao,Slice de iterador,,,,,,,,,
+defaultdict,collections_module,estrutura_dados,Dicionário com valor padrão,intermediario,2,defaultdict(fabrica),"from collections import defaultdict
+grupos = defaultdict(list)
+grupos[""frutas""].append(""uva"")   # cria a lista sozinho
+print(dict(grupos))",{'frutas': ['uva']},"Passe a FÁBRICA, não o valor: defaultdict(list), nunca defaultdict([]). E só de LER uma chave inexistente ele já a CRIA.",dict|setdefault|Counter,ferramentas|colecoes,1
+deque,collections_module,estrutura_dados,Fila dupla (double-ended queue),,,,,,,,,
+Counter,collections_module,estrutura_dados,Contador de elementos,intermediario,2,Counter(iteravel),"from collections import Counter
+c = Counter(""banana"")
+print(c)
+print(c.most_common(2))
+print(c[""z""])      # não existe: 0, sem KeyError","Counter({'a': 3, 'n': 2, 'b': 1})
+[('a', 3), ('n', 2)]
+0","Chave ausente devolve 0 em vez de KeyError — cômodo, mas esconde erro de digitação.",dict|defaultdict|count,ferramentas|colecoes,1
+OrderedDict,collections_module,estrutura_dados,Dicionário que mantém ordem,,,,,,,,,
+namedtuple,collections_module,estrutura_dados,Tupla nomeada,,,,,,,,,
+ChainMap,collections_module,estrutura_dados,Combina múltiplos dicionários,,,,,,,,,
+UserDict,collections_module,estrutura_dados,Classe base para dicionários customizados,,,,,,,,,
+UserList,collections_module,estrutura_dados,Classe base para listas customizadas,,,,,,,,,
+UserString,collections_module,estrutura_dados,Classe base para strings customizadas,,,,,,,,,
+partial,functools_module,funcional,Aplicação parcial de função,,,,,,,,,
+reduce,functools_module,funcional,Aplica função cumulativamente,,,,,,,,,
+wraps,functools_module,funcional,Decorador para preservar metadados,,,,,,,,,
+lru_cache,functools_module,funcional,Cache LRU para funções,,,,,,,,,
+singledispatch,functools_module,funcional,Função genérica baseada no tipo,,,,,,,,,
+cached_property,functools_module,funcional,Propriedade com cache,,,,,,,,,
+copy,copy_module,objeto,Cópia rasa de um objeto,,,,,,,,,
+deepcopy,copy_module,objeto,Cópia profunda de um objeto,avancado,2,copy.deepcopy(objeto),"import copy
+original = [[1, 2], [3]]
+rasa = original.copy()
+funda = copy.deepcopy(original)
+
+original[0].append(99)
+print(""rasa: "", rasa)     # contaminada!
+print(""funda:"", funda)","rasa:  [[1, 2, 99], [3]]
+funda: [[1, 2], [3]]",Cópia rasa (copy() ou [:]) copia só o nível de fora: as listas INTERNAS continuam compartilhadas. É o bug silencioso mais clássico com listas aninhadas.,copy|list|is,objetos|colecoes,1
+urlopen,urllib_module,web,Abre uma URL,,,,,,,,,
+urlparse,urllib_module,web,Analisa uma URL,,,,,,,,,
+quote,urllib_module,web,Codifica URL,,,,,,,,,
+unquote,urllib_module,web,Decodifica URL,,,,,,,,,
+urlencode,urllib_module,web,Codifica parâmetros de URL,,,,,,,,,
+Request,urllib_module,web,Cria requisição HTTP,,,,,,,,,
+build_opener,urllib_module,web,Constrói um abridor de URL,,,,,,,,,

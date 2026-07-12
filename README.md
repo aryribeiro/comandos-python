@@ -3,97 +3,97 @@ Obs.: caso o app esteja no modo "sleeping" (dormindo) ao entrar, basta clicar no
 
 # 🐍 Comandos Python
 
-## Descrição
-
-"Comandos Python" é uma aplicação web interativa construída com Python e Streamlit, projetada para servir como uma referência de comandos Python, especialmente útil para alunos e iniciantes na linguagem. A aplicação permite aos usuários navegar, pesquisar e filtrar comandos Python, visualizando suas descrições, categorias e tipos de forma amigável e organizada.
+Referência de comandos Python para alunos e iniciantes — **que executa o que ensina**.
 
 🔗 **App online:** https://comandos.streamlit.app/
 
-## ✨ Funcionalidades
+## O que faz este app diferente
 
-* **Busca de Comandos:** Encontre comandos rapidamente pelo nome **ou pela descrição**.
-* **Filtragem Avançada:** Filtre comandos por categoria (ex: Matemática, Strings, Listas) e tipo (ex: Palavra-chave, Função Built-in, Método de Lista).
-* **Visualização em Cards:** Cada comando é apresentado em um card informativo com seu nome, tipo, categoria e descrição detalhada.
-* **Copiar para Área de Transferência:** Passe o mouse sobre o comando e clique no ícone 📋 do bloco de código para copiá-lo.
-* **Nomes Qualificados:** Comandos homônimos são exibidos com o namespace do módulo (`re.compile`, `itertools.count`, `time.time`), evitando ambiguidade.
-* **Traduções Amigáveis:** Categorias e tipos técnicos são traduzidos para termos mais acessíveis, incluindo emojis para fácil identificação.
-* **Estatísticas:** Visualize o número total de comandos, categorias e tipos disponíveis na base de dados.
-* **Paginação:** Os resultados são exibidos em páginas de 25 comandos, mantendo a navegação fluida.
-* **Interface Moderna:** Design profissional e limpo com CSS customizado para uma melhor experiência do usuário.
-* **Guia Rápido:** Instruções de como usar os filtros e a busca diretamente na barra lateral.
+A maioria das referências te mostra *o que* um comando faz. Esta responde três perguntas que os alunos erram e quase ninguém ensina:
 
-## 🛠️ Tecnologias Utilizadas
+**1. De onde o Python tira esse nome?**
+`len(x)` e `x.append(1)` *parecem* a mesma coisa — e não são. `len` é um **nome**, procurado na cadeia LEGB (Local → Enclosing → Global → Built-in). `append` **não está no LEGB**: é um **atributo** do objeto. `for` não é nome nem atributo — é **sintaxe**, resolvida pelo parser. E `math.sqrt` só existe depois que o `import` põe `math` no Global.
 
-* **Python:** Linguagem base da aplicação.
-* **Streamlit:** Framework para construção da interface web interativa. A cópia de comandos usa o botão nativo do `st.code`, que age no navegador do usuário.
-* **Pandas:** Para manipulação e carregamento dos dados dos comandos a partir de um arquivo CSV.
+Cada comando ganha um diagrama do seu caminho de resolução. É isso que explica, de uma vez, por que `append(x)` sozinho dá `NameError` e por que `len` funciona sem importar nada.
 
-## 🚀 Configuração e Instalação
+**2. Qual é a armadilha?**
+Cada comando do núcleo traz a pegadinha clássica em destaque. `round(2.5)` é **2**, não 3. `'banana'.strip('ba')` vira **`'nan'`**. `lista.sort()` devolve **None**. `all([])` é **True**. São os erros que o aluno vai cometer — melhor cometer aqui.
 
-Siga os passos abaixo para executar a aplicação localmente:
+**3. E se eu mudar o código?**
+O **Playground** roda Python de verdade dentro do navegador (Pyodide/WebAssembly). O aluno edita, quebra de propósito e vê o erro real. Nada é executado no servidor.
 
-1.  **Pré-requisitos:**
-    * Python 3.9 ou superior instalado.
-    * `pip` (gerenciador de pacotes Python).
+## ✅ As saídas não são escritas à mão
 
-2.  **Clone o Repositório:**
-    ```bash
-    git clone https://github.com/aryribeiro/comandos-python.git
-    cd comandos-python
-    ```
+Toda saída publicada foi gerada **executando o exemplo**. O [verificar_exemplos.py](verificar_exemplos.py) roda os 93 exemplos executáveis num subprocesso isolado e compara o stdout com a coluna `saida` do CSV:
 
-3.  **Crie e Ative um Ambiente Virtual (Recomendado):**
-    ```bash
-    python -m venv venv
-    # Windows
-    venv\Scripts\activate
-    # macOS/Linux
-    source venv/bin/activate
-    ```
-
-4.  **Instale as Dependências:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-5.  **Estrutura de Arquivos:**
-    * `app.py` — script principal da aplicação
-    * `comandos.csv` — base de dados dos comandos
-    * `logo.png` — logo exibida no cabeçalho (opcional; há fallback para título em texto)
-    * `.streamlit/config.toml` — fixa o tema claro, que o CSS da aplicação assume
-
-6.  **Execute a Aplicação:**
-    ```bash
-    streamlit run app.py
-    ```
-    A aplicação deverá abrir automaticamente no seu navegador padrão.
-
-## 📊 Fonte de Dados (`comandos.csv`)
-
-A aplicação carrega os comandos Python a partir de um arquivo chamado `comandos.csv` localizado na raiz do projeto. Este arquivo deve conter as seguintes colunas:
-
-* `comando`: O nome do comando/função/método (ex: `print`, `len`, `append`).
-* `tipo`: O tipo técnico do comando (ex: `builtin_function`, `list_method`, `keyword`).
-* `categoria`: A categoria técnica do comando (ex: `io`, `sequencia`, `lista`).
-* `descricao`: Uma breve descrição do que o comando faz.
-
-**Exemplo de linha no `comandos.csv`:**
-```csv
-comando,tipo,categoria,descricao
-print,builtin_function,io,"Imprime objetos para o fluxo de texto padrão (geralmente a tela)."
-len,builtin_function,sequencia,"Retorna o número de itens em um container."
+```bash
+python verificar_exemplos.py
 ```
 
-> ⚠️ O CSV é lido com `keep_default_na=False`. Sem isso o pandas converte o comando `None` em `NaN` e ele desaparece da base — `None` faz parte da lista de valores nulos padrão do pandas.
+Ele sai com erro se algum exemplo quebrar ou divergir — ou seja, se o app estiver mentindo para o aluno. Rode sempre depois de mexer no CSV.
+
+## ✨ Funcionalidades
+
+* **📖 Catálogo** — busca (no nome *e* na descrição) e filtros por categoria, tipo, nível e trilha, sobre os 363 comandos.
+* **🎓 Estudar** — um comando por vez: diagrama de resolução, sintaxe, exemplo, saída verificada, armadilha, veja-também e navegação anterior/próximo.
+* **▶️ Playground** — edite e execute Python no seu navegador, sem servidor.
+* **Trilhas de aprendizado** — percursos temáticos, dos primeiros passos às ferramentas do dia a dia.
+* **Níveis** — iniciante, intermediário e avançado.
+* **Nomes qualificados** — homônimos aparecem com o namespace (`re.compile`, `itertools.count`, `time.time`), em vez de virarem cards idênticos.
+* **Copiar** — botão nativo do `st.code`, que age no navegador de quem acessa.
+* **Trilha sonora** — música de fundo opcional para estudar, com play/pause e volume.
+
+## 🛠️ Tecnologias
+
+* **Streamlit** — interface. A cópia usa o botão nativo do `st.code`.
+* **Pandas** — carga do CSV.
+* **Pyodide** — CPython compilado para WebAssembly, rodando no navegador do aluno.
+* **SVG** — os diagramas de resolução de nomes, gerados em Python.
+
+## 🚀 Rodando localmente
+
+```bash
+git clone https://github.com/aryribeiro/comandos-python.git
+cd comandos-python
+python -m venv venv && venv\Scripts\activate      # Windows
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+## 📁 Estrutura
+
+| Arquivo | Papel |
+|---|---|
+| [app.py](app.py) | Interface: catálogo, modo estudar e playground |
+| [diagrama.py](diagrama.py) | Gera o SVG "de onde o Python tira isso?" |
+| [playground.py](playground.py) | O iframe autocontido do Pyodide |
+| [musica.py](musica.py) | Player da trilha sonora |
+| [verificar_exemplos.py](verificar_exemplos.py) | Executa os exemplos e confere a saída |
+| [comandos.csv](comandos.csv) | A base: 363 comandos, 95 com conteúdo de ensino |
+| `static/som.mp3` | Trilha sonora (servida sob demanda) |
+
+## 📊 A base (`comandos.csv`)
+
+| Coluna | Conteúdo |
+|---|---|
+| `comando`, `tipo`, `categoria`, `descricao` | o verbete (todos os 363) |
+| `nivel`, `importancia`, `trilha` | classificação pedagógica |
+| `sintaxe`, `exemplo`, `saida` | a lição — `saida` é **gerada por execução** |
+| `armadilha` | a pegadinha clássica |
+| `veja_tambem` | comandos relacionados (separados por `\|`) |
+| `executavel` | `0` quando o exemplo não roda aqui (pede digitação, encerra o processo) |
 
 ## 🎨 Customização
 
-* **Adicionar Novos Comandos:** Edite o `comandos.csv` seguindo o formato acima.
-* **Novas Categorias/Tipos:** Ao introduzir uma categoria ou tipo novo, adicione a tradução nos dicionários `CATEGORIAS` e `TIPOS` no `app.py`. Sem a tradução, o filtro continua funcionando, mas o rótulo cai no fallback genérico.
-* **Novos Módulos:** Para que um comando de módulo apareça qualificado (ex: `math.pow`), registre o prefixo no dicionário `PREFIXOS`.
-* **Estilo Visual:** O CSS fica em um único bloco `st.markdown` no topo do `app.py`.
+* **Novos comandos:** edite o `comandos.csv` e rode o `verificar_exemplos.py`.
+* **Novas categorias/tipos:** adicione a tradução em `CATEGORIAS` / `TIPOS` no `app.py`. Sem a tradução o filtro continua funcionando — só o rótulo cai no fallback.
+* **Novos módulos:** registre o prefixo em `PREFIXOS` (para sair `math.pow`) e em `MODULO_POR_TIPO` no `diagrama.py`.
 
-> ⚠️ Não esconda o `<header>` do Streamlit no CSS: a seta de abrir/fechar a barra lateral é renderizada dentro dele. Esconda apenas os itens do toolbar (`stToolbarActions`, `stMainMenu`, `stStatusWidget`).
+### Três armadilhas do Streamlit que este código já pagou
+
+1. **Não esconda o `<header>`.** A seta de abrir/fechar a barra lateral é renderizada dentro dele: escondê-lo deixa o usuário de celular sem busca e sem filtros. Esconda só os itens do toolbar.
+2. **SVG inline não sobrevive ao `st.markdown`.** O Markdown trata linha indentada como bloco de código e cospe as tags como texto na tela. Os diagramas vão como data-URI num `<img>`.
+3. **O CSV precisa de `keep_default_na=False`.** Sem isso o pandas converte o comando `None` em `NaN` e ele **some da base** — `None` faz parte da lista de nulos padrão do pandas.
 
 ## 👤 Autor
 

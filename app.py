@@ -4,9 +4,15 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
-CSV_PATH = Path(__file__).parent / "comandos.csv"
-LOGO_PATH = Path(__file__).parent / "logo.png"
+import diagrama
+import musica
+import playground
+
+RAIZ = Path(__file__).parent
+CSV_PATH = RAIZ / "comandos.csv"
+LOGO_PATH = RAIZ / "logo.png"
 COLUNAS_OBRIGATORIAS = ["comando", "tipo", "categoria", "descricao"]
 COMANDOS_POR_PAGINA = 25
 
@@ -47,11 +53,7 @@ st.markdown(
         align-items: center;
         text-align: center;
     }
-    .app-logo {
-        width: 400px;
-        max-width: 90%;
-        height: auto;
-    }
+    .app-logo {width: 400px; max-width: 90%; height: auto;}
     .app-slogan {
         font-size: 1.2rem;
         color: #6b7280;
@@ -67,12 +69,11 @@ st.markdown(
         border-radius: 10px;
         margin-bottom: 2rem;
     }
-
     .stat-item {text-align: center;}
     .stat-number {font-size: 2rem; font-weight: bold; color: #1e3c72;}
     .stat-label {color: #6b7280; font-size: 0.9rem;}
 
-    .command-type, .command-category {
+    .command-type, .command-category, .command-nivel {
         display: inline-block;
         padding: 0.2rem 0.6rem;
         border-radius: 15px;
@@ -82,6 +83,9 @@ st.markdown(
     }
     .command-type {background: #e8f4fd; color: #2a5298;}
     .command-category {background: #f0f9ff; color: #1e40af;}
+    .nivel-iniciante {background: #dcfce7; color: #166534;}
+    .nivel-intermediario {background: #fef3c7; color: #92400e;}
+    .nivel-avancado {background: #fee2e2; color: #991b1b;}
 
     .command-description {
         color: #4b5563;
@@ -90,15 +94,39 @@ st.markdown(
         line-height: 1.5;
     }
 
+    /* A armadilha é o coração pedagógico: precisa saltar aos olhos. */
+    .armadilha {
+        background: #fff7ed;
+        border-left: 5px solid #ea580c;
+        border-radius: 8px;
+        padding: 1rem 1.2rem;
+        margin: 0.5rem 0 1.2rem 0;
+        color: #7c2d12;
+        line-height: 1.6;
+    }
+    .armadilha-titulo {
+        font-weight: 700;
+        color: #c2410c;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .diagrama-box {
+        background: #fbfcfe;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 0.5rem 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+    .diagrama-box img {width: 100%; height: auto; display: block;}
+
     .sidebar-header {
         color: #1e3c72;
         font-weight: bold;
         font-size: 1.1rem;
         margin-bottom: 1rem;
     }
-
     .no-results {text-align: center; padding: 3rem; color: #6b7280;}
-
     .search-info {
         background: #fef3c7;
         border: 1px solid #f59e0b;
@@ -107,7 +135,6 @@ st.markdown(
         margin-bottom: 1rem;
         color: #92400e;
     }
-
     .app-footer {
         text-align: center;
         color: #6b7280;
@@ -123,89 +150,65 @@ st.markdown(
 )
 
 CATEGORIAS = {
-    "matematica": "🔢 Matemática",
-    "string": "📝 Strings",
-    "lista": "📋 Listas",
-    "dicionario": "📚 Dicionários",
-    "conjunto": "🔗 Conjuntos",
-    "arquivo": "📁 Arquivos",
-    "sistema": "⚙️ Sistema",
-    "io": "💻 Entrada/Saída",
-    "tempo": "⏰ Data/Tempo",
-    "aleatorio": "🎲 Aleatório",
-    "regex": "🔍 Regex",
-    "json": "📊 JSON",
-    "iteracao": "🔄 Iteração",
-    "estrutura_dados": "🏗️ Estruturas de Dados",
-    "funcional": "⚡ Programação Funcional",
-    "objeto": "🎯 Objetos",
-    "web": "🌐 Web/URLs",
-    "controle": "🎛️ Controle de Fluxo",
-    "funcao": "🔧 Funções",
-    "orientacao_objeto": "🏛️ Orientação a Objetos",
-    "excecao": "⚠️ Exceções",
-    "import": "📦 Imports",
-    "escopo": "🔐 Escopo",
-    "debug": "🐛 Debug",
-    "assincrono": "⚡ Assíncrono",
-    "conversao": "🔄 Conversão",
-    "sequencia": "📊 Sequências",
-    "inspecao": "🔍 Inspeção",
-    "memoria": "💾 Memória",
-    "utilitario": "🛠️ Utilitários",
-    "contexto": "📋 Context Managers",
-    "gerador": "⚙️ Geradores",
-    "constante": "📏 Constantes",
-    "logica": "🧠 Lógica",
-    "operador_logico": "🧮 Operadores Lógicos",
-    "operador": "➕ Operadores",
-    "aritmetico": "🔢 Aritmética",
-    "comparacao": "⚖️ Comparação",
-    "atribuicao": "📝 Atribuição",
+    "matematica": "🔢 Matemática", "string": "📝 Strings", "lista": "📋 Listas",
+    "dicionario": "📚 Dicionários", "conjunto": "🔗 Conjuntos", "arquivo": "📁 Arquivos",
+    "sistema": "⚙️ Sistema", "io": "💻 Entrada/Saída", "tempo": "⏰ Data/Tempo",
+    "aleatorio": "🎲 Aleatório", "regex": "🔍 Regex", "json": "📊 JSON",
+    "iteracao": "🔄 Iteração", "estrutura_dados": "🏗️ Estruturas de Dados",
+    "funcional": "⚡ Programação Funcional", "objeto": "🎯 Objetos", "web": "🌐 Web/URLs",
+    "controle": "🎛️ Controle de Fluxo", "funcao": "🔧 Funções",
+    "orientacao_objeto": "🏛️ Orientação a Objetos", "excecao": "⚠️ Exceções",
+    "import": "📦 Imports", "escopo": "🔐 Escopo", "debug": "🐛 Debug",
+    "assincrono": "⚡ Assíncrono", "conversao": "🔄 Conversão", "sequencia": "📊 Sequências",
+    "inspecao": "🔍 Inspeção", "memoria": "💾 Memória", "utilitario": "🛠️ Utilitários",
+    "contexto": "📋 Context Managers", "gerador": "⚙️ Geradores", "constante": "📏 Constantes",
+    "logica": "🧠 Lógica", "operador_logico": "🧮 Operadores Lógicos", "operador": "➕ Operadores",
+    "aritmetico": "🔢 Aritmética", "comparacao": "⚖️ Comparação", "atribuicao": "📝 Atribuição",
     "bitwise": "🔀 Bitwise",
 }
 
 TIPOS = {
-    "keyword": "🔑 Palavra-chave",
-    "builtin_function": "⚡ Função Built-in",
-    "list_method": "📋 Método de Lista",
-    "str_method": "📝 Método de String",
-    "dict_method": "📚 Método de Dicionário",
-    "set_method": "🔗 Método de Conjunto",
-    "file_method": "📁 Método de Arquivo",
-    "operator": "➕ Operador",
-    "os_module": "🖥️ Módulo OS",
-    "sys_module": "⚙️ Módulo Sys",
-    "datetime_module": "📅 Módulo DateTime",
-    "time_module": "⏱️ Módulo Time",
-    "random_module": "🎲 Módulo Random",
-    "re_module": "🔍 Módulo RE",
-    "json_module": "📊 Módulo JSON",
-    "math_module": "🔢 Módulo Math",
-    "itertools_module": "🔄 Módulo Itertools",
-    "collections_module": "🏗️ Módulo Collections",
-    "functools_module": "⚡ Módulo Functools",
-    "copy_module": "📋 Módulo Copy",
+    "keyword": "🔑 Palavra-chave", "builtin_function": "⚡ Função Built-in",
+    "list_method": "📋 Método de Lista", "str_method": "📝 Método de String",
+    "dict_method": "📚 Método de Dicionário", "set_method": "🔗 Método de Conjunto",
+    "file_method": "📁 Método de Arquivo", "operator": "➕ Operador",
+    "os_module": "🖥️ Módulo OS", "sys_module": "⚙️ Módulo Sys",
+    "datetime_module": "📅 Módulo DateTime", "time_module": "⏱️ Módulo Time",
+    "random_module": "🎲 Módulo Random", "re_module": "🔍 Módulo RE",
+    "json_module": "📊 Módulo JSON", "math_module": "🔢 Módulo Math",
+    "itertools_module": "🔄 Módulo Itertools", "collections_module": "🏗️ Módulo Collections",
+    "functools_module": "⚡ Módulo Functools", "copy_module": "📋 Módulo Copy",
     "urllib_module": "🌐 Módulo Urllib",
 }
 
 # Prefixo do módulo, para desambiguar homônimos: itertools.count vs count (list),
 # re.compile vs compile (built-in), time.time vs datetime.time...
 PREFIXOS = {
-    "os_module": "os",
-    "sys_module": "sys",
-    "datetime_module": "datetime",
-    "time_module": "time",
-    "random_module": "random",
-    "re_module": "re",
-    "json_module": "json",
-    "math_module": "math",
-    "itertools_module": "itertools",
-    "collections_module": "collections",
-    "functools_module": "functools",
-    "copy_module": "copy",
-    "urllib_module": "urllib",
+    "os_module": "os", "sys_module": "sys", "datetime_module": "datetime",
+    "time_module": "time", "random_module": "random", "re_module": "re",
+    "json_module": "json", "math_module": "math", "itertools_module": "itertools",
+    "collections_module": "collections", "functools_module": "functools",
+    "copy_module": "copy", "urllib_module": "urllib",
 }
+
+TRILHAS = {
+    "primeiros_passos": "🌱 Primeiros passos",
+    "fluxo": "🎛️ Decisão e repetição",
+    "colecoes": "📦 Listas, dicionários e conjuntos",
+    "texto": "📝 Trabalhando com texto",
+    "funcoes": "🔧 Funções",
+    "erros": "⚠️ Erros e exceções",
+    "arquivos": "📁 Arquivos",
+    "objetos": "🏛️ Objetos e memória",
+    "escopo": "🔐 Escopo",
+    "ferramentas": "🛠️ Ferramentas do dia a dia",
+}
+
+NIVEIS = {"iniciante": "🟢 Iniciante", "intermediario": "🟡 Intermediário", "avancado": "🔴 Avançado"}
+
+MODO_CATALOGO = "📖 Catálogo"
+MODO_ESTUDAR = "🎓 Estudar"
+MODO_PLAYGROUND = "▶️ Playground"
 
 
 def rotulo_categoria(categoria: str) -> str:
@@ -222,7 +225,7 @@ def nome_qualificado(comando: str, tipo: str) -> str:
     return f"{prefixo}.{comando}" if prefixo else comando
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def load_data() -> pd.DataFrame:
     # keep_default_na=False: sem isso o pandas converte o comando `None` em NaN
     # e ele some da base (`None` está na lista de na_values padrão).
@@ -232,15 +235,27 @@ def load_data() -> pd.DataFrame:
     if faltando:
         raise ValueError(f"Colunas ausentes no CSV: {', '.join(faltando)}")
 
-    for coluna in COLUNAS_OBRIGATORIAS:
+    for coluna in ("nivel", "importancia", "sintaxe", "exemplo", "saida",
+                   "armadilha", "veja_tambem", "trilha", "executavel"):
+        if coluna not in df.columns:
+            df[coluna] = ""
+
+    for coluna in df.columns:
         df[coluna] = df[coluna].str.strip()
 
-    return df[df["comando"] != ""].reset_index(drop=True)
+    df = df[df["comando"] != ""].reset_index(drop=True)
+    df["rotulo"] = [nome_qualificado(c, t) for c, t in zip(df["comando"], df["tipo"])]
+    return df
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def logo_base64() -> str:
     return b64encode(LOGO_PATH.read_bytes()).decode()
+
+
+@st.cache_data(show_spinner=False)
+def html_playground(exemplos: list[dict]) -> str:
+    return playground.construir_html(exemplos)
 
 
 def render_cabecalho() -> None:
@@ -264,12 +279,17 @@ def render_cabecalho() -> None:
 
 
 def render_estatisticas(df: pd.DataFrame) -> None:
+    com_exemplo = int((df["exemplo"] != "").sum())
     st.markdown(
         f"""
         <div class="stats-container">
             <div class="stat-item">
                 <div class="stat-number">{len(df)}</div>
                 <div class="stat-label">Comandos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{com_exemplo}</div>
+                <div class="stat-label">Com exemplo executável</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">{df['categoria'].nunique()}</div>
@@ -285,8 +305,36 @@ def render_estatisticas(df: pd.DataFrame) -> None:
     )
 
 
-def render_filtros(df: pd.DataFrame) -> tuple[str, str, str]:
+def render_sidebar(df: pd.DataFrame) -> dict:
     with st.sidebar:
+        st.markdown('<div class="sidebar-header">🐍 Comandos Python</div>', unsafe_allow_html=True)
+
+        # Sempre no MESMO lugar, em todos os modos: se o player mudasse de posição
+        # o Streamlit remontaria o iframe e a música cortaria no meio.
+        components.html(musica.HTML, height=76)
+
+        modo = st.radio(
+            "Modo:",
+            [MODO_CATALOGO, MODO_ESTUDAR, MODO_PLAYGROUND],
+            key="modo",
+            captions=[
+                "buscar e filtrar os 363",
+                "um comando por vez, a fundo",
+                "rode Python no navegador",
+            ],
+        )
+
+        st.markdown("---")
+
+        if modo == MODO_PLAYGROUND:
+            st.markdown("### ▶️ Playground")
+            st.markdown(
+                "O Python roda **dentro do seu navegador** (WebAssembly). "
+                "Edite o código, quebre de propósito, veja o erro real. "
+                "Nada é enviado para servidor nenhum."
+            )
+            return {"modo": modo}
+
         st.markdown('<div class="sidebar-header">🔍 Filtros e Busca</div>', unsafe_allow_html=True)
 
         busca = st.text_input(
@@ -299,83 +347,96 @@ def render_filtros(df: pd.DataFrame) -> tuple[str, str, str]:
         # Filtrar pelo rótulo exigiria busca reversa — e falhava calado quando
         # a categoria não tinha tradução.
         categoria = st.selectbox(
-            "📂 Filtrar por categoria:",
+            "📂 Categoria:",
             ["Todas", *sorted(df["categoria"].unique(), key=rotulo_categoria)],
             format_func=lambda c: "Todas" if c == "Todas" else rotulo_categoria(c),
-            help="Escolha uma categoria para ver comandos relacionados",
         )
-
         tipo = st.selectbox(
-            "🏷️ Filtrar por tipo:",
+            "🏷️ Tipo:",
             ["Todos", *sorted(df["tipo"].unique(), key=rotulo_tipo)],
             format_func=lambda t: "Todos" if t == "Todos" else rotulo_tipo(t),
-            help="Escolha um tipo específico de comando",
+        )
+        nivel = st.selectbox(
+            "📊 Nível:",
+            ["Todos", *[n for n in NIVEIS if (df["nivel"] == n).any()]],
+            format_func=lambda n: "Todos" if n == "Todos" else NIVEIS[n],
+        )
+        trilha = st.selectbox(
+            "🎓 Trilha de aprendizado:",
+            ["Todas", *[t for t in TRILHAS if df["trilha"].str.contains(t, regex=False).any()]],
+            format_func=lambda t: "Todas" if t == "Todas" else TRILHAS[t],
+            help="Um percurso temático, do básico ao avançado",
+        )
+        so_exemplo = st.checkbox(
+            "Só com exemplo executável",
+            value=(modo == MODO_ESTUDAR),
+            help="Mostra apenas os comandos com exemplo, saída verificada e armadilha",
         )
 
         st.markdown("---")
         st.markdown("### 📚 Como usar:")
         st.markdown(
             """
-            - **Busque** pelo nome do comando ou pela descrição
-            - **Filtre** por categoria ou tipo
-            - **Copie** passando o mouse sobre o comando e clicando em 📋
-            - **Explore** as categorias para aprender
+            - **Catálogo**: busque e filtre a referência inteira
+            - **Estudar**: veja de onde o Python tira cada nome e caia nas armadilhas
+            - **Playground**: rode e edite o código de verdade
             """
         )
 
-    return busca, categoria, tipo
+    return {
+        "modo": modo, "busca": busca, "categoria": categoria, "tipo": tipo,
+        "nivel": nivel, "trilha": trilha, "so_exemplo": so_exemplo,
+    }
 
 
-def aplicar_filtros(df: pd.DataFrame, busca: str, categoria: str, tipo: str) -> pd.DataFrame:
+def aplicar_filtros(df: pd.DataFrame, f: dict) -> pd.DataFrame:
     filtrado = df
 
-    if busca:
+    if f["busca"]:
         # regex=False: comandos como `+`, `*` e `**` são regex inválidos
         # e derrubavam a busca com re.error.
-        alvo = filtrado["comando"].str.contains(busca, case=False, regex=False)
-        alvo |= filtrado["descricao"].str.contains(busca, case=False, regex=False)
+        alvo = filtrado["comando"].str.contains(f["busca"], case=False, regex=False)
+        alvo |= filtrado["descricao"].str.contains(f["busca"], case=False, regex=False)
         filtrado = filtrado[alvo]
 
-    if categoria != "Todas":
-        filtrado = filtrado[filtrado["categoria"] == categoria]
-
-    if tipo != "Todos":
-        filtrado = filtrado[filtrado["tipo"] == tipo]
+    if f["categoria"] != "Todas":
+        filtrado = filtrado[filtrado["categoria"] == f["categoria"]]
+    if f["tipo"] != "Todos":
+        filtrado = filtrado[filtrado["tipo"] == f["tipo"]]
+    if f["nivel"] != "Todos":
+        filtrado = filtrado[filtrado["nivel"] == f["nivel"]]
+    if f["trilha"] != "Todas":
+        filtrado = filtrado[filtrado["trilha"].str.contains(f["trilha"], regex=False)]
+    if f["so_exemplo"]:
+        filtrado = filtrado[filtrado["exemplo"] != ""]
 
     return filtrado
 
 
-def render_card(linha: pd.Series) -> None:
-    with st.container(border=True):
-        esquerda, direita = st.columns([1, 2], vertical_alignment="center")
-
-        with esquerda:
-            # st.code traz o botão de copiar nativo, que age no navegador do usuário.
-            st.code(nome_qualificado(linha["comando"], linha["tipo"]), language="python")
-
-        with direita:
-            # escape(): operadores como `<`, `>` e `&` quebravam o HTML dos cards.
-            st.markdown(
-                f"""
-                <div>
-                    <span class="command-type">{escape(rotulo_tipo(linha['tipo']))}</span>
-                    <span class="command-category">{escape(rotulo_categoria(linha['categoria']))}</span>
-                </div>
-                <div class="command-description">{escape(linha['descricao'])}</div>
-                """,
-                unsafe_allow_html=True,
-            )
+def badges(linha: pd.Series) -> str:
+    partes = [
+        f'<span class="command-type">{escape(rotulo_tipo(linha["tipo"]))}</span>',
+        f'<span class="command-category">{escape(rotulo_categoria(linha["categoria"]))}</span>',
+    ]
+    if linha["nivel"]:
+        partes.append(
+            f'<span class="command-nivel nivel-{escape(linha["nivel"])}">'
+            f'{escape(NIVEIS.get(linha["nivel"], linha["nivel"]))}</span>'
+        )
+    return "".join(partes)
 
 
-def render_resultados(filtrado: pd.DataFrame) -> None:
+def estudar_comando(rotulo: str) -> None:
+    """Manda o app para o modo Estudar já no comando escolhido."""
+    st.session_state.modo = MODO_ESTUDAR
+    st.session_state.comando_estudo = rotulo
+
+
+def render_catalogo(filtrado: pd.DataFrame) -> None:
     if filtrado.empty:
         st.markdown(
-            """
-            <div class="no-results">
-                <h3>😔 Nenhum comando encontrado</h3>
-                <p>Tente ajustar os filtros ou o termo de busca</p>
-            </div>
-            """,
+            '<div class="no-results"><h3>😔 Nenhum comando encontrado</h3>'
+            "<p>Tente ajustar os filtros ou o termo de busca</p></div>",
             unsafe_allow_html=True,
         )
         return
@@ -397,7 +458,154 @@ def render_resultados(filtrado: pd.DataFrame) -> None:
 
     inicio = (pagina - 1) * COMANDOS_POR_PAGINA
     for _, linha in filtrado.iloc[inicio : inicio + COMANDOS_POR_PAGINA].iterrows():
-        render_card(linha)
+        with st.container(border=True):
+            esquerda, direita = st.columns([1, 2], vertical_alignment="center")
+
+            with esquerda:
+                # st.code traz o botão de copiar nativo, que age no navegador do usuário.
+                st.code(linha["rotulo"], language="python")
+                if linha["exemplo"]:
+                    st.button(
+                        "🎓 Estudar",
+                        key=f"estudar_{linha['rotulo']}_{linha['categoria']}",
+                        on_click=estudar_comando,
+                        args=(linha["rotulo"],),
+                        use_container_width=True,
+                    )
+
+            with direita:
+                # escape(): operadores como `<`, `>` e `&` quebravam o HTML dos cards.
+                st.markdown(
+                    f'<div>{badges(linha)}</div>'
+                    f'<div class="command-description">{escape(linha["descricao"])}</div>',
+                    unsafe_allow_html=True,
+                )
+
+
+def render_estudar(df: pd.DataFrame, filtrado: pd.DataFrame) -> None:
+    estudaveis = filtrado[filtrado["exemplo"] != ""]
+    if estudaveis.empty:
+        st.info(
+            "Nenhum comando com exemplo bate com esses filtros. "
+            "Limpe os filtros na barra lateral ou desmarque *Só com exemplo executável*."
+        )
+        return
+
+    rotulos = estudaveis["rotulo"].tolist()
+    atual = st.session_state.get("comando_estudo")
+    indice = rotulos.index(atual) if atual in rotulos else 0
+
+    escolhido = st.selectbox(
+        f"🎓 Estudar ({len(rotulos)} comandos disponíveis):",
+        rotulos,
+        index=indice,
+        key="seletor_estudo",
+    )
+    linha = estudaveis[estudaveis["rotulo"] == escolhido].iloc[0]
+
+    st.markdown(f"## `{escolhido}`")
+    st.markdown(
+        f'<div>{badges(linha)}</div>'
+        f'<div class="command-description">{escape(linha["descricao"])}</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown("")
+
+    # --- o diferencial: de onde o Python tira este nome? ---
+    svg, explicacao = diagrama.render(linha["comando"], linha["tipo"])
+    st.markdown("#### 🧭 De onde o Python tira isso?")
+    # SVG inline não sobrevive ao Streamlit: o Markdown trata as linhas do SVG
+    # como bloco de código e cospe as tags como texto, e o st.html() poda os
+    # nós. Como data-URI num <img> vai como imagem — imune aos dois.
+    svg_uri = b64encode(svg.encode("utf-8")).decode()
+    st.markdown(
+        f'<div class="diagrama-box">'
+        f'<img src="data:image/svg+xml;base64,{svg_uri}" alt="Como o Python resolve {escape(linha["comando"])}">'
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(explicacao)
+
+    esquerda, direita = st.columns(2)
+    with esquerda:
+        st.markdown("#### 📐 Sintaxe")
+        st.code(linha["sintaxe"].replace("\\n", "\n"), language="python")
+        st.markdown("#### 💻 Exemplo")
+        st.code(linha["exemplo"], language="python")
+    with direita:
+        st.markdown("#### ▶️ Saída real")
+        if linha["executavel"] == "1":
+            st.code(linha["saida"] or "(sem saída)", language="text")
+            st.caption("Saída gerada executando o exemplo — não foi escrita à mão.")
+        else:
+            st.info("Este exemplo não roda aqui: depende de digitação ou encerra o programa.")
+
+        if linha["armadilha"]:
+            st.markdown(
+                f'<div class="armadilha"><span class="armadilha-titulo">⚠️ A armadilha</span>'
+                f'{escape(linha["armadilha"])}</div>',
+                unsafe_allow_html=True,
+            )
+
+    if linha["veja_tambem"]:
+        relacionados = [v.strip() for v in linha["veja_tambem"].split("|") if v.strip()]
+        st.markdown("#### 🔗 Veja também")
+        for coluna, alvo in zip(st.columns(len(relacionados)), relacionados):
+            with coluna:
+                # só vira botão se o comando existir e for estudável
+                destino = df[(df["comando"] == alvo) & (df["exemplo"] != "")]
+                if not destino.empty:
+                    st.button(
+                        alvo,
+                        key=f"veja_{escolhido}_{alvo}",
+                        on_click=estudar_comando,
+                        args=(destino.iloc[0]["rotulo"],),
+                        use_container_width=True,
+                    )
+                else:
+                    st.markdown(f"`{alvo}`")
+
+    st.markdown("---")
+    anterior, meio, proximo = st.columns([1, 2, 1])
+    posicao = rotulos.index(escolhido)
+    with anterior:
+        if posicao > 0:
+            st.button(
+                f"⬅️ {rotulos[posicao - 1]}",
+                on_click=estudar_comando, args=(rotulos[posicao - 1],),
+                use_container_width=True,
+            )
+    with meio:
+        st.markdown(
+            f'<p style="text-align:center;color:#6b7280">{posicao + 1} de {len(rotulos)}</p>',
+            unsafe_allow_html=True,
+        )
+    with proximo:
+        if posicao < len(rotulos) - 1:
+            st.button(
+                f"{rotulos[posicao + 1]} ➡️",
+                on_click=estudar_comando, args=(rotulos[posicao + 1],),
+                use_container_width=True,
+            )
+
+
+def render_playground(df: pd.DataFrame) -> None:
+    st.markdown("### ▶️ Playground — Python de verdade, no seu navegador")
+    st.markdown(
+        "Escolha um comando, **edite o código** e execute. O interpretador roda em "
+        "WebAssembly dentro da sua aba: nada vai para servidor nenhum. "
+        "Quebre de propósito — ver o erro real é metade do aprendizado."
+    )
+
+    com_exemplo = df[(df["exemplo"] != "") & (df["executavel"] == "1")]
+    exemplos = [
+        {"rotulo": f"{linha['rotulo']} — {linha['descricao']}", "codigo": linha["exemplo"]}
+        for _, linha in com_exemplo.iterrows()
+    ]
+
+    # A lista é sempre a mesma: o HTML não muda entre reruns, então o Streamlit
+    # não remonta o iframe e o Pyodide não recarrega os ~10 MB a cada clique.
+    components.html(html_playground(exemplos), height=640, scrolling=True)
 
 
 def render_rodape() -> None:
@@ -425,16 +633,27 @@ def main() -> None:
         st.stop()
 
     render_estatisticas(df)
-    busca, categoria, tipo = render_filtros(df)
+    filtros = render_sidebar(df)
 
-    if busca:
+    if filtros["modo"] == MODO_PLAYGROUND:
+        render_playground(df)
+        render_rodape()
+        return
+
+    if filtros["busca"]:
         st.markdown(
             f'<div class="search-info">🔍 Mostrando resultados para: '
-            f"<strong>{escape(busca)}</strong></div>",  # escape(): sem isso, o campo de busca era XSS refletido
+            f"<strong>{escape(filtros['busca'])}</strong></div>",  # escape(): senão o campo de busca é XSS refletido
             unsafe_allow_html=True,
         )
 
-    render_resultados(aplicar_filtros(df, busca, categoria, tipo))
+    filtrado = aplicar_filtros(df, filtros)
+
+    if filtros["modo"] == MODO_ESTUDAR:
+        render_estudar(df, filtrado)
+    else:
+        render_catalogo(filtrado)
+
     render_rodape()
 
 
