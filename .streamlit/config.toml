@@ -1,10 +1,3 @@
 [theme]
 base = "light"
 primaryColor = "#2a5298"
-
-# Serve os arquivos de ./static em /app/static/<arquivo>.
-# É assim que a trilha sonora (static/som.mp3, ~8 MB) chega ao navegador:
-# embutir em base64 inflaria o HTML de TODA visita, inclusive de quem nunca
-# aperta o play. Servida como arquivo, ela só é baixada sob demanda.
-[server]
-enableStaticServing = true

@@ -13,6 +13,7 @@ import playground
 RAIZ = Path(__file__).parent
 CSV_PATH = RAIZ / "comandos.csv"
 LOGO_PATH = RAIZ / "logo.png"
+SOM_PATH = RAIZ / "static" / "som.mp3"
 COLUNAS_OBRIGATORIAS = ["comando", "tipo", "categoria", "descricao"]
 COMANDOS_POR_PAGINA = 25
 
@@ -258,6 +259,15 @@ def html_playground(exemplos: list[dict]) -> str:
     return playground.construir_html(exemplos)
 
 
+@st.cache_data(show_spinner=False)
+def html_musica() -> str:
+    # Áudio em base64, como no aws-game: no Streamlit Cloud a rota /app/static/
+    # devolve um 303 para o portão de autenticação, não o arquivo.
+    if not SOM_PATH.exists():
+        return ""
+    return musica.construir_html(b64encode(SOM_PATH.read_bytes()).decode())
+
+
 def render_cabecalho() -> None:
     # Logo e slogan no MESMO bloco centralizado. Com a logo em st.columns o
     # st.image encostava na borda esquerda da coluna, enquanto o slogan
@@ -309,9 +319,22 @@ def render_sidebar(df: pd.DataFrame) -> dict:
     with st.sidebar:
         st.markdown('<div class="sidebar-header">🔊 Controle de Som</div>', unsafe_allow_html=True)
 
-        # Sempre no MESMO lugar, em todos os modos: se o player mudasse de posição
-        # o Streamlit remontaria o iframe e a música cortaria no meio.
-        components.html(musica.HTML, height=76)
+        # O áudio vai embutido em base64 (única forma que funciona no Cloud) e
+        # pesa ~5,5 MB no HTML. Se fosse renderizado sempre, viajaria na mesma
+        # mensagem de render do Streamlit e faria TODO o app esperar por ele:
+        # medido em 55s numa banda de 1,5 MB/s. Por isso só é montado a pedido —
+        # quem não quer música não paga nada.
+        if st.toggle("Ativar trilha sonora", value=False,
+                     help="Carrega ~4 MB de música. Depois é só apertar o play."):
+            som = html_musica()
+            if som:
+                # Posição fixa enquanto ligado: se o player mudasse de lugar o
+                # Streamlit remontaria o iframe e a música cortaria no meio.
+                components.html(som, height=76)
+            else:
+                st.caption("Arquivo static/som.mp3 não encontrado.")
+        else:
+            st.caption("Estude com música de fundo.")
 
         modo = st.radio(
             "Modo:",
