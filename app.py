@@ -46,7 +46,15 @@ st.markdown(
     footer {display: none !important;}
     #MainMenu {display: none !important;}
 
-    .block-container {padding-top: 1rem;}
+    /* layout="wide" é necessário para a sidebar, mas esticar o conteúdo por
+       2000px de tela deixa a linha longa demais para ler. Limita e centraliza
+       na área útil (fora da sidebar). */
+    .block-container {
+        padding-top: 1rem;
+        max-width: 1150px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     .app-header {
         display: flex;
