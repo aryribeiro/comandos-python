@@ -62,14 +62,19 @@ def caminho_de(tipo: str) -> str:
 
 
 def _camada(y, rotulo, achou, nota="", cor_achou=VERDE):
-    """Uma faixa da pilha LEGB."""
+    """Uma faixa da pilha LEGB.
+
+    A faixa mais longa ("G — Global (seu arquivo, imports)") transbordava do
+    retângulo: fonte menor E retângulo mais largo, porque só encolher a fonte
+    deixava o texto raspando na borda.
+    """
     cor = cor_achou if achou else "#e5e7eb"
     txt = "#ffffff" if achou else "#6b7280"
     marca = "✓" if achou else "✗"
     return f"""
-    <rect x="30" y="{y}" width="260" height="42" rx="8" fill="{cor}"/>
-    <text x="48" y="{y + 27}" font-size="15" font-weight="600" fill="{txt}">{marca}  {escape(rotulo)}</text>
-    <text x="305" y="{y + 26}" font-size="13" fill="#6b7280">{escape(nota)}</text>
+    <rect x="30" y="{y}" width="300" height="42" rx="8" fill="{cor}"/>
+    <text x="48" y="{y + 27}" font-size="13.5" font-weight="600" fill="{txt}">{marca}  {escape(rotulo)}</text>
+    <text x="345" y="{y + 26}" font-size="13" fill="#6b7280">{escape(nota)}</text>
     """
 
 
@@ -156,8 +161,8 @@ def render(comando: str, tipo: str) -> tuple[str, str]:
         corpo = (
             _titulo(f"'{comando}' NÃO é um nome solto — é atributo de um objeto")
             + f"""
-            <rect x="30" y="46" width="300" height="46" rx="8" fill="#f3f4f6"/>
-            <text x="48" y="75" font-size="14" fill="#9ca3af">✗  LEGB — {cmd} não está aqui</text>
+            <rect x="30" y="46" width="380" height="46" rx="8" fill="#f3f4f6"/>
+            <text x="48" y="75" font-size="13.5" fill="#9ca3af">✗  LEGB — {cmd} não está aqui</text>
 
             <rect x="30" y="112" width="180" height="56" rx="8" fill="{AZUL}"/>
             <text x="48" y="137" font-size="13" fill="#dbeafe">o objeto</text>
@@ -189,8 +194,8 @@ def render(comando: str, tipo: str) -> tuple[str, str]:
     corpo = (
         _titulo(f"'{comando}' mora dentro do módulo {modulo} — o import é que o traz")
         + f"""
-        <rect x="30" y="46" width="300" height="44" rx="8" fill="#f3f4f6"/>
-        <text x="48" y="74" font-size="14" fill="#9ca3af">✗  Built-in — {cmd} não vem de graça</text>
+        <rect x="30" y="46" width="380" height="44" rx="8" fill="#f3f4f6"/>
+        <text x="48" y="74" font-size="13.5" fill="#9ca3af">✗  Built-in — {cmd} não vem de graça</text>
 
         <text x="30" y="118" font-size="14" font-family="monospace" fill="{AZUL}">import {escape(modulo)}</text>
         <path d="M 150 113 L 205 113" stroke="{AZUL}" stroke-width="2.5" fill="none"/>

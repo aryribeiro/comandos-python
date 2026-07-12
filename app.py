@@ -307,7 +307,7 @@ def render_estatisticas(df: pd.DataFrame) -> None:
 
 def render_sidebar(df: pd.DataFrame) -> dict:
     with st.sidebar:
-        st.markdown('<div class="sidebar-header">🐍 Comandos Python</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sidebar-header">🔊 Controle de Som</div>', unsafe_allow_html=True)
 
         # Sempre no MESMO lugar, em todos os modos: se o player mudasse de posição
         # o Streamlit remontaria o iframe e a música cortaria no meio.
