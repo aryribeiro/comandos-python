@@ -1,3 +1,4 @@
+from base64 import b64encode
 from html import escape
 from pathlib import Path
 
@@ -40,8 +41,18 @@ st.markdown(
 
     .block-container {padding-top: 1rem;}
 
-    .app-slogan {
+    .app-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
+    }
+    .app-logo {
+        width: 400px;
+        max-width: 90%;
+        height: auto;
+    }
+    .app-slogan {
         font-size: 1.2rem;
         color: #6b7280;
         font-weight: 500;
@@ -227,16 +238,27 @@ def load_data() -> pd.DataFrame:
     return df[df["comando"] != ""].reset_index(drop=True)
 
 
+@st.cache_data
+def logo_base64() -> str:
+    return b64encode(LOGO_PATH.read_bytes()).decode()
+
+
 def render_cabecalho() -> None:
+    # Logo e slogan no MESMO bloco centralizado. Com a logo em st.columns o
+    # st.image encostava na borda esquerda da coluna, enquanto o slogan
+    # centralizava na página: dois eixos diferentes, texto fora de prumo.
     if LOGO_PATH.exists():
-        _, meio, _ = st.columns([1, 1, 1])
-        with meio:
-            st.image(str(LOGO_PATH), width=400)
+        topo = f'<img class="app-logo" src="data:image/png;base64,{logo_base64()}" alt="Comandos Python">'
     else:
-        st.markdown("<h1 style='text-align:center'>🐍 Comandos Python</h1>", unsafe_allow_html=True)
+        topo = "<h1>🐍 Comandos Python</h1>"
 
     st.markdown(
-        '<p class="app-slogan">Referência completa para alunos e iniciantes</p>',
+        f"""
+        <div class="app-header">
+            {topo}
+            <p class="app-slogan">Referência completa para alunos e iniciantes</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
